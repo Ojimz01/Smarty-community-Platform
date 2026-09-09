@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Community</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="homepage">
+
+   <header>
+    <div class="logo">
+        <img src="assets/logo.svg" alt="Smart Community Logo" width="50" height="50">
+        <h1>Smart Community</h1>
+    </div>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <nav id="mainNav" class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="login.html" class="auth-link">Login</a>
+    </nav>
+   </header>
+
+   <main>
+   <section class="hero" aria-labelledby="heroHeading">
+    <div class="hero-copy">
+      <h2 id="heroHeading">Find Services. Build Community.</h2>
+      <p>Connect with trusted professionals near you for all your home and community needs.</p>
+      <form id="searchForm" class="search-container" role="search" aria-label="Search services">
+          <label class="sr-only" for="searchInput">Search services</label>
+          <input id="searchInput" type="search" placeholder="What service do you need?" aria-label="Search services">
+          <button id="searchButton" type="submit">Search</button>
+      </form>
+      <div class="hero-actions">
+          <a class="button ghost" href="#services">Explore services</a>
+          <a class="button" href="login.html">Login</a>
+      </div>
+      <div class="hero-highlights">
+        <div class="highlight-card">
+          <strong>Secure bookings</strong>
+          <span>Trusted pros verified in your area.</span>
+        </div>
+        <div class="highlight-card">
+          <strong>Fast matching</strong>
+          <span>Connect with experts in under 60 seconds.</span>
+        </div>
+        <div class="highlight-card">
+          <strong>24/7 support</strong>
+          <span>Help is always within reach.</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+    <img class="hero-image" loading="lazy" src="assets/hero.svg" alt="Community services illustration">
+    </div>
+   </section>
+
+   <section id="services" class="services">
+    <h3>Popular Services</h3>
+    <div class="services-grid">
+        <div class="card">
+            <img loading="lazy" src="assets/plumbing.svg" alt="Plumbing" width="100" height="100">
+            <h4>Plumbing</h4>
+            <p>Fix leaks and pipes with expert plumbers.</p>
+        </div>
+
+        <div class="card">
+            <img loading="lazy" src="assets/electrical.svg" alt="Electrical" width="100" height="100">
+            <h4>Electrical</h4>
+            <p>Wiring and repairs by certified electricians.</p>
+        </div>
+
+        <div class="card">
+            <img loading="lazy" src="assets/carpentry.svg" alt="Carpentry" width="100" height="100">
+            <h4>Carpentry</h4>
+            <p>Custom woodwork and furniture repairs.</p>
+        </div>
+
+        <div class="card">
+            <img loading="lazy" src="assets/painting.svg" alt="Painting" width="100" height="100">
+            <h4>Painting</h4>
+            <p>Interior and exterior painting services.</p>
+        </div>
+
+        <div class="card">
+            <img loading="lazy" src="assets/cleaning.svg" alt="Cleaning" width="100" height="100">
+            <h4>Cleaning</h4>
+            <p>Professional cleaning for homes and offices.</p>
+        </div>
+
+        <div class="card">
+            <img loading="lazy" src="assets/landscaping.svg" alt="Landscaping" width="100" height="100">
+            <h4>Landscaping</h4>
+            <p>Garden design and maintenance.</p>
+        </div>
+    </div>
+   </section>
+
+   <section id="about" class="about">
+    <h3>About Us</h3>
+    <p>Smart Community is your go-to platform for connecting with reliable service providers in your area. We ensure quality, trust, and convenience for all your community needs.</p>
+    <div class="stats">
+        <div class="stat">
+            <h4>1000+</h4>
+            <p>Happy Customers</p>
+        </div>
+        <div class="stat">
+            <h4>500+</h4>
+            <p>Verified Professionals</p>
+        </div>
+        <div class="stat">
+            <h4>50+</h4>
+            <p>Services Offered</p>
+        </div>
+    </div>
+   </section>
+
+   <section id="testimonials" class="testimonials">
+    <h3>What Our Customers Say</h3>
+    <div class="testimonial-grid">
+        <div class="testimonial">
+            <p>"Great service! Found a reliable plumber in minutes."</p>
+            <cite>- John Doe</cite>
+        </div>
+        <div class="testimonial">
+            <p>"The platform is easy to use and professionals are vetted."</p>
+            <cite>- Jane Smith</cite>
+        </div>
+        <div class="testimonial">
+            <p>"Saved me time and money. Highly recommend!"</p>
+            <cite>- Mike Johnson</cite>
+        </div>
+    </div>
+   </section>
+
+   <section id="contact" class="contact">
+    <h3>Contact Us</h3>
+    <p>Have questions? Reach out to us!</p>
+    <form id="contactForm" class="contact-form" novalidate>
+        <div class="form-group">
+            <label for="contactName">Your Name</label>
+            <input id="contactName" type="text" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+            <label for="contactEmail">Your Email</label>
+            <input id="contactEmail" type="email" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+            <label for="contactMessageField">Your Message</label>
+            <textarea id="contactMessageField" placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit">Send Message</button>
+        <div id="contactMessage" class="form-message" aria-live="polite"></div>
+    </form>
+   </section>
+   </main>
+
+   <footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="assets/logo.svg" alt="Smart Community Logo" width="40" height="40">
+            <p>&copy; 2026 Smart Community. All rights reserved.</p>
+        </div>
+        <nav>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#contact">Contact Us</a>
+        </nav>
+        <div class="social-media">
+            <a class="social-icon facebook" href="#" aria-label="Facebook"><img src="assets/facebook.svg" alt="Facebook"></a>
+                <a class="social-icon x" href="#" aria-label="X"><img src="assets/twitter.svg" alt="X"></a>
+                <a class="social-icon instagram" href="#" aria-label="Instagram"><img src="assets/instagram.svg" alt="Instagram"></a>
+        </div>
+    </div>
+   </footer>
+   <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+    <div class="container">
+      <a class="home-link" href="index.html">←</a>
+      <img src="assets/logo.svg" alt="Smart Community Logo" width="70" height="70">
+      <div class="auth-heading">
+        <h2>Login</h2>
+        <p>Sign in to manage bookings, messages, and service requests.</p>
+      </div>
+
+      <form id="loginForm" novalidate>
+          <div class="form-group">
+              <label for="loginEmail">Email</label>
+              <input type="email" id="loginEmail" placeholder="Enter your email" required>
+              <span class="error-msg" id="email-error"></span>
+          </div>
+          <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" placeholder="Enter your password" required>
+              <span class="error-msg" id="password-error"></span>
+          </div>
+          <button type="submit" id="loginBtn">Login</button>
+          <div class="loading-spinner" id="loginSpinner" style="display: none;"></div>
+      </form>
+
+      <p class="auth-footer">New here? <a href="register.html">Create an account</a></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

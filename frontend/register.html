@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Register</title>
+</head>
+<body class="auth-page">
+    <div class="container">
+      <a class="home-link" href="index.html">←</a>
+      <img src="assets/logo.svg" alt="Smart Community Logo" width="70" height="70">
+      <div class="auth-heading">
+        <h2>Create Account</h2>
+        <p>Join Smart Community and connect with local service experts instantly.</p>
+      </div>
+
+      <form id="registerForm" novalidate>
+          <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" placeholder="Enter username" required minlength="3">
+              <span class="error-msg" id="username-error"></span>
+          </div>
+          <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="Enter your email" required>
+              <span class="error-msg" id="email-error"></span>
+          </div>
+          <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="At least 6 characters" required minlength="6">
+              <span class="error-msg" id="password-error"></span>
+          </div>
+          <button type="submit" id="registerBtn">Register</button>
+          <div class="loading-spinner" id="registerSpinner" style="display: none;"></div>
+      </form>
+
+      <p class="auth-footer">Already have an account? <a href="login.html">Login</a></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

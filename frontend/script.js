@@ -236,12 +236,9 @@ const SERVICE_CATALOG = [
 const contactForm = document.querySelector(".contact-form");
 const contactMessage = document.getElementById("contactMessage");
 if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const inputs = contactForm.querySelectorAll("input, textarea");
-        inputs.forEach(input => input.value = "");
+    contactForm.addEventListener("submit", () => {
         if (contactMessage) {
-            contactMessage.textContent = "Thank you! Your message has been sent. We'll respond soon.";
+            contactMessage.textContent = "Sending your message...";
         }
     });
 }

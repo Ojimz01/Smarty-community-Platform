@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const LocationShare = require("../models/LocationShare");
+const ServiceRequest = require("../models/ServiceRequest");
 const { requireAuth, requireRole } = require("../middleware/auth");
 
 const validateCoordinates = (latitude, longitude) => {
@@ -142,9 +143,26 @@ router.get("/provider/:id", requireAuth, async (req, res) => {
     }
 
     if (req.user.role === "customer") {
-      // This is intentionally kept conservative until a real service-request relationship exists.
-      // The app should not claim a customer is authorized without a valid service connection.
-      return res.status(403).json({ message: "Location access is restricted to an active service relationship." });
+      const approvedRequest = await ServiceRequest.findOne({
+        provider: req.params.id,
+        customer: req.user.id,
+        status: "accepted"
+      });
+
+      if (!approvedRequest) {
+        return res.status(403).json({ message: "Location access is restricted to an active service relationship." });
+      }
+
+      return res.json({
+        location: {
+          provider: share.provider,
+          latitude: share.latitude,
+          longitude: share.longitude,
+          sharingActive: share.sharingActive,
+          updatedAt: share.updatedAt,
+          serviceRequestId: approvedRequest._id
+        }
+      });
     }
 
     if (req.user.role === "admin") {

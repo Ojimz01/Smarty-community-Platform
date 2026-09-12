@@ -667,6 +667,7 @@ if (requestForm) {
 }
 
 renderServiceProviders();
+loadMarketplaceData();
 
 // ===== Dashboard =====
 const welcomeText = document.getElementById("welcomeText");
@@ -701,6 +702,98 @@ function getDecodedTokenPayload() {
         return JSON.parse(atob(padded));
     } catch (error) {
         return {};
+    }
+}
+
+const requestList = document.getElementById("requestList");
+
+async function loadRequestQueue() {
+    if (!requestList) {
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        requestList.innerHTML = "<li>Please log in to view service activity.</li>";
+        return;
+    }
+
+    try {
+        const role = getDecodedTokenPayload().role || "customer";
+        const endpoint = role === "provider" ? "http://localhost:5000/api/requests/provider" : "http://localhost:5000/api/requests/mine";
+        const response = await fetch(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || "Unable to load request list.");
+        }
+
+        const items = data.requests || [];
+        if (!items.length) {
+            requestList.innerHTML = "<li>No service requests yet.</li>";
+            return;
+        }
+
+        if (role === "provider") {
+            requestList.innerHTML = items.map((item) => `
+                <li class="request-item">
+                    <div>
+                        <strong>${item.serviceName}</strong>
+                        <span>${item.category}</span>
+                    </div>
+                    <div class="request-item-meta">
+                        <span>Status: ${item.status}</span>
+                        <div class="requestActions">
+                            <button type="button" class="mini-button accept" data-id="${item._id}" data-status="accepted">Accept</button>
+                            <button type="button" class="mini-button reject" data-id="${item._id}" data-status="rejected">Reject</button>
+                        </div>
+                    </div>
+                </li>
+            `).join("");
+
+            requestList.querySelectorAll(".mini-button").forEach((button) => {
+                button.addEventListener("click", async () => {
+                    const requestId = button.dataset.id;
+                    const status = button.dataset.status;
+                    const response = await fetch(`http://localhost:5000/api/requests/${requestId}/status`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ status })
+                    });
+
+                    const data = await response.json();
+                    if (response.ok) {
+                        await loadRequestQueue();
+                        setLocationUi({ sharing: false, message: data.message || "Request updated.", tone: "success" });
+                    } else {
+                        setLocationUi({ sharing: false, message: data.message || "Unable to update request.", tone: "error" });
+                    }
+                });
+            });
+            return;
+        }
+
+        requestList.innerHTML = items.map((item) => `
+            <li class="request-item">
+                <div>
+                    <strong>${item.serviceName}</strong>
+                    <span>${item.category}</span>
+                </div>
+                <div class="request-item-meta">
+                    <span>Status: ${item.status}</span>
+                    <small>${item.providerName || "Local provider"}</small>
+                </div>
+            </li>
+        `).join("");
+    } catch (error) {
+        requestList.innerHTML = `<li>${error.message || "Unable to load your request activity."}</li>`;
     }
 }
 

@@ -12,6 +12,19 @@ router.get("/mine", requireAuth, async (req, res) => {
     }
 });
 
+router.get("/approved", requireAuth, async (req, res) => {
+    try {
+        const query = req.user.role === "provider"
+            ? { provider: req.user.id, status: "accepted" }
+            : { customer: req.user.id, status: "accepted" };
+
+        const requests = await ServiceRequest.find(query).sort({ updatedAt: -1 });
+        return res.json({ requests });
+    } catch (error) {
+        return res.status(500).json({ message: "Failed to load approved requests." });
+    }
+});
+
 router.get("/provider", requireAuth, requireRole("provider"), async (req, res) => {
     try {
         const requests = await ServiceRequest.find({ provider: req.user.id }).sort({ createdAt: -1 });

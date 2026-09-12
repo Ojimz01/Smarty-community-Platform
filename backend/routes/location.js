@@ -32,6 +32,15 @@ router.post("/start", requireAuth, requireRole("provider"), async (req, res) => 
       return res.status(400).json({ message: "Valid latitude and longitude are required." });
     }
 
+    const approvedRequest = await ServiceRequest.findOne({
+      provider: req.user.id,
+      status: "accepted"
+    });
+
+    if (!approvedRequest) {
+      return res.status(403).json({ message: "You can only share live location for an accepted service request." });
+    }
+
     let share = await LocationShare.findOne({ provider: req.user.id });
 
     if (!share) {
@@ -72,6 +81,15 @@ router.post("/update", requireAuth, requireRole("provider"), async (req, res) =>
 
     if (!validateCoordinates(latitude, longitude)) {
       return res.status(400).json({ message: "Valid latitude and longitude are required." });
+    }
+
+    const approvedRequest = await ServiceRequest.findOne({
+      provider: req.user.id,
+      status: "accepted"
+    });
+
+    if (!approvedRequest) {
+      return res.status(403).json({ message: "Location updates are only allowed for accepted service requests." });
     }
 
     let share = await LocationShare.findOne({ provider: req.user.id });

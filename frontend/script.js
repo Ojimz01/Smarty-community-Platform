@@ -680,6 +680,7 @@ if (welcomeText) {
     } else {
         const emailName = email ? email.split("@")[0] : "community member";
         welcomeText.innerText = `Welcome, ${emailName}!`;
+        loadRequestQueue();
     }
 }
 
@@ -1009,7 +1010,41 @@ if (locationBadge && locationStatusText && locationMessage) {
         startLocationSharingBtn.disabled = true;
         stopLocationSharingBtn.disabled = true;
     } else {
-        setLocationUi({ sharing: false, message: "Ready to start sharing your live location.", tone: "neutral" });
+        setLocationUi({ sharing: false, message: "Checking if you have an accepted service request...", tone: "neutral" });
+        fetch("http://localhost:5000/api/requests/provider", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then(async (response) => {
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || "Unable to load request status.");
+                }
+                const approved = (data.requests || []).some((request) => request.status === "accepted");
+                if (!approved) {
+                    setLocationUi({
+                        sharing: false,
+                        message: "You need an accepted service request before live location sharing can begin.",
+                        tone: "neutral"
+                    });
+                    startLocationSharingBtn.disabled = true;
+                    stopLocationSharingBtn.disabled = true;
+                    return;
+                }
+                setLocationUi({ sharing: false, message: "Ready to start sharing your live location for an approved job.", tone: "neutral" });
+                startLocationSharingBtn.disabled = false;
+                stopLocationSharingBtn.disabled = false;
+            })
+            .catch(() => {
+                setLocationUi({
+                    sharing: false,
+                    message: "Unable to confirm your approved work status right now.",
+                    tone: "neutral"
+                });
+                startLocationSharingBtn.disabled = true;
+                stopLocationSharingBtn.disabled = true;
+            });
     }
 }
 

@@ -199,7 +199,16 @@ if (loginForm) {
 }
 
 // ===== Service Catalog =====
-const SERVICE_CATALOG = [
+const SERVICE_ICONS = {
+    Plumbing: "assets/plumbing.svg",
+    Electrical: "assets/electrical.svg",
+    Carpentry: "assets/carpentry.svg",
+    Painting: "assets/painting.svg",
+    Cleaning: "assets/cleaning.svg",
+    Landscaping: "assets/landscaping.svg"
+};
+
+let SERVICE_CATALOG = [
     {
         title: "Plumbing",
         description: "Fix leaks and pipes with expert plumbers.",
@@ -232,7 +241,7 @@ const SERVICE_CATALOG = [
     }
 ];
 
-const PROVIDER_DATA = [
+let PROVIDER_DATA = [
     {
         name: "BlueWave Plumbing Co.",
         category: "Plumbing",
@@ -378,6 +387,58 @@ const PROVIDER_DATA = [
         availability: "Limited openings"
     }
 ];
+
+const normalizeProvider = (provider) => ({
+    name: provider.businessName || provider.name || "Community Provider",
+    category: provider.category || provider.serviceCategory || "General",
+    location: provider.location || "Local area",
+    description: provider.bio || provider.description || "Trusted local service provider ready to help.",
+    rating: Number(provider.rating ?? 4.8),
+    availability: provider.availability || "Open to requests"
+});
+
+const loadMarketplaceData = async () => {
+    try {
+        const [categoriesResponse, providersResponse] = await Promise.all([
+            fetch("http://localhost:5000/api/services/service-categories"),
+            fetch("http://localhost:5000/api/providers")
+        ]);
+
+        if (categoriesResponse.ok) {
+            const categoriesResult = await categoriesResponse.json();
+            const categories = categoriesResult.categories || [];
+
+            if (Array.isArray(categories) && categories.length > 0) {
+                SERVICE_CATALOG = categories.map((category) => ({
+                    title: category.name,
+                    description: category.description || `${category.name} service support for local community needs.`,
+                    icon: SERVICE_ICONS[category.name] || "assets/logo.svg"
+                }));
+            }
+        }
+
+        if (providersResponse.ok) {
+            const providersResult = await providersResponse.json();
+            const providers = providersResult.providers || [];
+
+            if (Array.isArray(providers) && providers.length > 0) {
+                PROVIDER_DATA = providers.map((provider) => normalizeProvider({
+                    ...provider,
+                    businessName: provider.businessName || provider.user?.username || "Community Provider",
+                    category: provider.category || provider.serviceCategory || "General",
+                    rating: Number(provider.rating ?? 4.8),
+                    availability: provider.isAvailable ? "Available now" : "Currently busy"
+                }));
+            }
+        }
+    } catch (error) {
+        console.warn("Marketplace backend unavailable. Using bundled demo data.", error);
+    }
+
+    if (typeof renderServiceProviders === "function") {
+        renderServiceProviders();
+    }
+};
 
 // ===== Contact Form =====
 const contactForm = document.querySelector(".contact-form");

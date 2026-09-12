@@ -305,6 +305,25 @@ button.logout-button:hover {
     gap: 1rem;
 }
 
+.trust-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.3rem;
+}
+
+.trust-pills span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #dfeafc;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
 .highlight-card {
     padding: 1.15rem 1.2rem;
     border-radius: 22px;

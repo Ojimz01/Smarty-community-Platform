@@ -1,4 +1,7 @@
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL = (() => {
+    const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+    return isLocal ? "http://localhost:5000/api/auth" : `${window.location.origin}/api/auth`;
+})();
 
 // ===== Mobile Menu Toggle =====
 const mobileMenuToggle = document.getElementById("mobileMenuToggle");

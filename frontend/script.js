@@ -509,6 +509,7 @@ const renderServiceProviders = () => {
                     <span>${provider.availability}</span>
                 </div>
                 <p>${provider.description}</p>
+                <div class="provider-status-note">Location not currently shared — live tracking is only available for active approved service trips.</div>
                 <div class="provider-actions">
                     <button type="button" class="provider-button secondary" data-provider="${provider.name}">View Profile</button>
                     <button type="button" class="provider-button primary" data-provider="${provider.name}">Request Service</button>
@@ -553,3 +554,239 @@ function logout() {
     localStorage.removeItem("userEmail");
     window.location.href = "login.html";
 }
+
+function getDecodedTokenPayload() {
+    const token = localStorage.getItem("token");
+    if (!token || !token.includes(".")) {
+        return {};
+    }
+
+    try {
+        const payload = token.split(".")[1];
+        const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
+        const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
+        return JSON.parse(atob(padded));
+    } catch (error) {
+        return {};
+    }
+}
+
+const locationBadge = document.getElementById("locationBadge");
+const locationStatusText = document.getElementById("locationStatusText");
+const locationMessage = document.getElementById("locationMessage");
+const startLocationSharingBtn = document.getElementById("startLocationSharingBtn");
+const stopLocationSharingBtn = document.getElementById("stopLocationSharingBtn");
+
+let locationWatchId = null;
+let lastLocationUpdateAt = 0;
+
+function setLocationUi({ sharing, message, tone = "neutral" }) {
+    if (locationBadge) {
+        const statusText = sharing ? "Sharing" : "Not sharing";
+        locationBadge.textContent = statusText;
+        locationBadge.classList.toggle("active", !!sharing);
+    }
+
+    if (locationStatusText) {
+        locationStatusText.textContent = sharing
+            ? "Location sharing is on. Only authorized service access can view your recent location."
+            : "Location sharing is off. This feature is only available for provider accounts while actively travelling to an accepted job.";
+    }
+
+    if (locationMessage) {
+        locationMessage.textContent = message || "";
+        locationMessage.classList.remove("error", "success");
+        if (tone === "error") {
+            locationMessage.classList.add("error");
+        }
+        if (tone === "success") {
+            locationMessage.classList.add("success");
+        }
+    }
+}
+
+async function sendLocationUpdate(latitude, longitude, mode = "start") {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        setLocationUi({ sharing: false, message: "Please log in to share your live location.", tone: "error" });
+        return;
+    }
+
+    const response = await fetch(`http://localhost:5000/api/location/${mode}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ latitude, longitude })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || "Location update failed.");
+    }
+
+    return data;
+}
+
+function stopWatchingLocation() {
+    if (locationWatchId !== null && navigator.geolocation) {
+        navigator.geolocation.clearWatch(locationWatchId);
+        locationWatchId = null;
+    }
+}
+
+async function stopLocationSharing() {
+    if (!startLocationSharingBtn || !stopLocationSharingBtn) {
+        return;
+    }
+
+    stopWatchingLocation();
+    setLocationUi({ sharing: false, message: "Stopping location sharing..." });
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        setLocationUi({ sharing: false, message: "Please log in to stop sharing.", tone: "error" });
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:5000/api/location/stop", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Could not stop location sharing.");
+        }
+
+        setLocationUi({ sharing: false, message: "Location sharing is OFF.", tone: "success" });
+    } catch (error) {
+        setLocationUi({ sharing: false, message: error.message || "Unable to stop sharing right now.", tone: "error" });
+    }
+}
+
+function handleGeolocationError(error) {
+    let message = "Location is unavailable right now.";
+
+    if (error.code === error.PERMISSION_DENIED) {
+        message = "Location permission was denied. Please allow access to share your live location.";
+    } else if (error.code === error.POSITION_UNAVAILABLE) {
+        message = "Your device could not determine the current location.";
+    } else if (error.code === error.TIMEOUT) {
+        message = "Location request timed out. Please try again.";
+    }
+
+    setLocationUi({ sharing: false, message, tone: "error" });
+    stopWatchingLocation();
+}
+
+async function startLocationSharing() {
+    if (!startLocationSharingBtn || !stopLocationSharingBtn) {
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        setLocationUi({ sharing: false, message: "Please log in first.", tone: "error" });
+        window.location.href = "login.html";
+        return;
+    }
+
+    const role = getDecodedTokenPayload().role || "customer";
+    if (role !== "provider") {
+        setLocationUi({
+            sharing: false,
+            message: "Live location sharing is only available for provider accounts.",
+            tone: "error"
+        });
+        return;
+    }
+
+    if (!navigator.geolocation) {
+        setLocationUi({ sharing: false, message: "This browser does not support geolocation.", tone: "error" });
+        return;
+    }
+
+    setLocationUi({ sharing: true, message: "Requesting browser permission for your live location..." });
+
+    const onLocationSuccess = async (position) => {
+        const now = Date.now();
+        const { latitude, longitude } = position.coords;
+        const shouldSend = now - lastLocationUpdateAt > 15000;
+
+        if (shouldSend) {
+            lastLocationUpdateAt = now;
+            try {
+                const result = await sendLocationUpdate(latitude, longitude, "start");
+                setLocationUi({
+                    sharing: true,
+                    message: `Location sharing is ON. Last updated at ${new Date(result.location.updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}.`,
+                    tone: "success"
+                });
+            } catch (error) {
+                setLocationUi({ sharing: false, message: error.message || "Unable to update your location.", tone: "error" });
+            }
+        }
+    };
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+        try {
+            const result = await sendLocationUpdate(position.coords.latitude, position.coords.longitude, "start");
+            setLocationUi({
+                sharing: true,
+                message: `Location sharing is ON. Last updated at ${new Date(result.location.updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}.`,
+                tone: "success"
+            });
+
+            if (locationWatchId !== null && navigator.geolocation) {
+                navigator.geolocation.clearWatch(locationWatchId);
+            }
+
+            locationWatchId = navigator.geolocation.watchPosition(onLocationSuccess, handleGeolocationError, {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 30000
+            });
+        } catch (error) {
+            setLocationUi({ sharing: false, message: error.message || "Unable to start location sharing.", tone: "error" });
+        }
+    }, handleGeolocationError, {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 30000
+    });
+}
+
+if (startLocationSharingBtn) {
+    startLocationSharingBtn.addEventListener("click", startLocationSharing);
+}
+
+if (stopLocationSharingBtn) {
+    stopLocationSharingBtn.addEventListener("click", stopLocationSharing);
+}
+
+if (locationBadge && locationStatusText && locationMessage) {
+    const role = getDecodedTokenPayload().role || "customer";
+    if (role !== "provider") {
+        setLocationUi({
+            sharing: false,
+            message: "Live location sharing is currently reserved for provider accounts.",
+            tone: "neutral"
+        });
+        startLocationSharingBtn.disabled = true;
+        stopLocationSharingBtn.disabled = true;
+    } else {
+        setLocationUi({ sharing: false, message: "Ready to start sharing your live location.", tone: "neutral" });
+    }
+}
+
+window.addEventListener("beforeunload", () => {
+    stopWatchingLocation();
+});

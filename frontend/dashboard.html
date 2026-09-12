@@ -60,6 +60,22 @@
                 <h3>Settings</h3>
                 <p>Manage your account and notification settings.</p>
             </div>
+
+            <div class="card location-card" id="locationCard">
+                <div class="location-header">
+                    <div>
+                        <p class="eyebrow">Live location</p>
+                        <h3>Travel status</h3>
+                    </div>
+                    <span class="status-badge" id="locationBadge">Not sharing</span>
+                </div>
+                <p id="locationStatusText">Location sharing is off. This feature is only available for provider accounts while actively travelling to an accepted job.</p>
+                <div class="location-actions">
+                    <button type="button" id="startLocationSharingBtn" class="location-button primary">Share my live location</button>
+                    <button type="button" id="stopLocationSharingBtn" class="location-button secondary">Stop sharing</button>
+                </div>
+                <p id="locationMessage" class="location-message" aria-live="polite"></p>
+            </div>
         </section>
     </main>
     

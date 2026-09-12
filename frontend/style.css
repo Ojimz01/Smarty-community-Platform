@@ -1019,12 +1019,45 @@ body.services-page {
 
 .trust-section,
 .how-it-works,
-.community-impact {
+.community-impact,
+.cta-strip {
     padding: 5rem 2rem 0;
 }
 
 .community-impact {
     margin-top: 1rem;
+}
+
+.cta-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 0;
+}
+
+.cta-strip .cta-copy {
+    max-width: 650px;
+}
+
+.cta-strip h3 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 3rem);
+    letter-spacing: -0.05em;
+    color: #f8fbff;
+}
+
+.cta-strip .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.cta-strip .button {
+    min-width: 180px;
 }
 
 .impact-grid {

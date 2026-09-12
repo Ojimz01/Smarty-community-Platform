@@ -1007,8 +1007,51 @@ body.services-page {
 }
 
 .trust-section,
-.how-it-works {
+.how-it-works,
+.community-impact {
     padding: 5rem 2rem 0;
+}
+
+.community-impact {
+    margin-top: 1rem;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+.impact-card {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(11, 17, 31, 0.74));
+    border: 1px solid rgba(125, 211, 252, 0.12);
+    border-radius: 26px;
+    padding: 1.7rem 1.4rem;
+    box-shadow: 0 20px 50px rgba(2, 6, 23, 0.12);
+}
+
+.impact-icon {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: rgba(125, 211, 252, 0.12);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.impact-card h4 {
+    margin: 0 0 0.75rem;
+    color: #f8fbff;
+    font-size: 1.2rem;
+}
+
+.impact-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
 }
 
 .platform-stats,

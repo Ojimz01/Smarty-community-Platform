@@ -86,10 +86,32 @@
           <label for="serviceRequestMessage">Project details</label>
           <textarea id="serviceRequestMessage" name="message" rows="4" placeholder="Tell us what you need help with..." required></textarea>
         </div>
+        <input type="hidden" id="serviceRequestProviderName" name="providerName" value="">
         <button type="submit" class="button">Submit request</button>
         <p id="requestStatusMessage" class="request-status-message" aria-live="polite"></p>
       </form>
     </section>
+
+    <div id="providerProfileModal" class="provider-profile-modal hidden" aria-hidden="true">
+      <div class="provider-profile-card" role="dialog" aria-modal="true" aria-labelledby="providerProfileName">
+        <button type="button" class="profile-close" id="closeProfileModal" aria-label="Close profile">×</button>
+        <div class="provider-profile-header">
+          <div>
+            <span class="provider-tag" id="profileCategory">Category</span>
+            <h3 id="providerProfileName">Provider name</h3>
+          </div>
+          <span class="provider-rating" id="profileRating">★ 4.9</span>
+        </div>
+        <div class="provider-profile-meta">
+          <span id="profileLocation">Location</span>
+          <span id="profileAvailability">Available</span>
+        </div>
+        <p id="profileDescription">Provider description.</p>
+        <div class="provider-profile-footer">
+          <button type="button" class="button profile-request-button" id="profileRequestButton">Request Service</button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer>

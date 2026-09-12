@@ -527,6 +527,62 @@ const serviceSummary = document.getElementById("serviceSummary");
 const providerGrid = document.getElementById("providerGrid");
 const providerCount = document.getElementById("providerCount");
 
+const providerProfileModal = document.getElementById("providerProfileModal");
+const providerProfileName = document.getElementById("providerProfileName");
+const providerProfileCategory = document.getElementById("profileCategory");
+const providerProfileRating = document.getElementById("profileRating");
+const providerProfileLocation = document.getElementById("profileLocation");
+const providerProfileAvailability = document.getElementById("profileAvailability");
+const providerProfileDescription = document.getElementById("profileDescription");
+const profileRequestButton = document.getElementById("profileRequestButton");
+
+function populateServiceRequest(providerName, categoryValue) {
+    const form = document.getElementById("serviceRequestForm");
+    const categoryInput = document.getElementById("serviceRequestCategory");
+    const nameInput = document.getElementById("serviceRequestName");
+    const providerInput = document.getElementById("serviceRequestProviderName");
+
+    if (form && categoryInput && nameInput) {
+        categoryInput.value = categoryValue || "General";
+        nameInput.value = `${providerName} service request`;
+        if (providerInput) {
+            providerInput.value = providerName;
+        }
+        window.scrollTo({ top: form.offsetTop - 30, behavior: "smooth" });
+    }
+
+    const requestStatus = document.getElementById("requestStatusMessage");
+    if (requestStatus) {
+        requestStatus.textContent = `You are requesting ${providerName}. Complete the remaining details below and submit your request.`;
+    }
+}
+
+function openProviderProfile(provider) {
+    if (!providerProfileModal || !providerProfileName || !providerProfileCategory || !providerProfileRating || !providerProfileLocation || !providerProfileAvailability || !providerProfileDescription) {
+        return;
+    }
+
+    providerProfileName.textContent = provider.name || "Community Provider";
+    providerProfileCategory.textContent = provider.category || "General";
+    providerProfileRating.textContent = `${"★".repeat(Math.round(provider.rating || 4.8))} ${(provider.rating || 4.8).toFixed(1)}`;
+    providerProfileLocation.textContent = provider.location || "Local area";
+    providerProfileAvailability.textContent = provider.availability || "Available";
+    providerProfileDescription.textContent = provider.description || "Trusted local service provider ready to help.";
+    providerProfileModal.classList.remove("hidden");
+    providerProfileModal.setAttribute("aria-hidden", "false");
+    profileRequestButton.dataset.provider = provider.name || "Community Provider";
+    profileRequestButton.dataset.category = provider.category || "General";
+}
+
+function closeProviderProfile() {
+    if (!providerProfileModal) {
+        return;
+    }
+
+    providerProfileModal.classList.add("hidden");
+    providerProfileModal.setAttribute("aria-hidden", "true");
+}
+
 const renderServiceProviders = () => {
     if (!serviceCategoryTabs || !serviceTitle || !serviceSummary || !providerGrid) {
         return;
@@ -586,25 +642,28 @@ const renderServiceProviders = () => {
 
     document.querySelectorAll(".provider-button").forEach((button) => {
         button.addEventListener("click", () => {
-            const provider = button.dataset.provider || "this provider";
-            const actionText = button.classList.contains("primary") ? "Service request sent" : "Profile opened";
+            const providerName = button.dataset.provider || "this provider";
+            const provider = PROVIDER_DATA.find((item) => item.name === providerName) || {
+                name: providerName,
+                category: normalizedCategory,
+                description: "Trusted local service provider.",
+                location: "Local area",
+                rating: 4.8,
+                availability: "Available"
+            };
+
+            if (button.classList.contains("secondary")) {
+                openProviderProfile(provider);
+                return;
+            }
+
+            const actionText = "Service request sent";
             button.textContent = actionText;
             button.disabled = true;
             setTimeout(() => {
-                button.textContent = button.classList.contains("primary") ? "Request Service" : "View Profile";
+                button.textContent = "Request Service";
                 button.disabled = false;
-                const form = document.getElementById("serviceRequestForm");
-                const categoryInput = document.getElementById("serviceRequestCategory");
-                const nameInput = document.getElementById("serviceRequestName");
-                if (form && categoryInput && nameInput) {
-                    categoryInput.value = normalizedCategory;
-                    nameInput.value = `${provider} request`;
-                    window.scrollTo({ top: form.offsetTop - 30, behavior: "smooth" });
-                }
-                const requestStatus = document.getElementById("requestStatusMessage");
-                if (requestStatus) {
-                    requestStatus.textContent = `${actionText} for ${provider}. Complete the form below to send your request.`;
-                }
+                populateServiceRequest(provider.name, provider.category || normalizedCategory);
             }, 250);
         });
     });
@@ -612,6 +671,27 @@ const renderServiceProviders = () => {
 
 const requestForm = document.getElementById("serviceRequestForm");
 const requestStatusMessage = document.getElementById("requestStatusMessage");
+
+if (profileRequestButton) {
+    profileRequestButton.addEventListener("click", () => {
+        const providerName = profileRequestButton.dataset.provider || "Community Provider";
+        const categoryValue = profileRequestButton.dataset.category || "General";
+        populateServiceRequest(providerName, categoryValue);
+        closeProviderProfile();
+    });
+}
+
+if (providerProfileModal) {
+    providerProfileModal.addEventListener("click", (event) => {
+        if (event.target === providerProfileModal) {
+            closeProviderProfile();
+        }
+    });
+}
+
+if (document.getElementById("closeProfileModal")) {
+    document.getElementById("closeProfileModal").addEventListener("click", closeProviderProfile);
+}
 
 if (requestForm) {
     requestForm.addEventListener("submit", async (event) => {
@@ -633,7 +713,7 @@ if (requestForm) {
             preferredDate: (formData.get("preferredDate") || "").toString().trim(),
             preferredTime: (formData.get("preferredTime") || "").toString().trim(),
             message: (formData.get("message") || "").toString().trim(),
-            providerName: "Local provider"
+            providerName: (document.getElementById("serviceRequestProviderName")?.value || "Local provider").trim() || "Local provider"
         };
 
         if (!payload.category || !payload.serviceName || !payload.message) {

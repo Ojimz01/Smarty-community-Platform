@@ -58,6 +58,38 @@
     </section>
 
     <section class="provider-grid" id="providerGrid" aria-live="polite"></section>
+
+    <section class="request-panel" aria-labelledby="requestPanelTitle">
+      <div class="request-panel-header">
+        <h2 id="requestPanelTitle">Request a service</h2>
+      </div>
+      <form id="serviceRequestForm" class="request-form">
+        <div class="request-grid">
+          <div class="form-group">
+            <label for="serviceRequestCategory">Service category</label>
+            <input id="serviceRequestCategory" name="category" type="text" placeholder="Plumbing" required>
+          </div>
+          <div class="form-group">
+            <label for="serviceRequestName">Service needed</label>
+            <input id="serviceRequestName" name="serviceName" type="text" placeholder="Bathroom leak repair" required>
+          </div>
+          <div class="form-group">
+            <label for="serviceRequestDate">Preferred date</label>
+            <input id="serviceRequestDate" name="preferredDate" type="date">
+          </div>
+          <div class="form-group">
+            <label for="serviceRequestTime">Preferred time</label>
+            <input id="serviceRequestTime" name="preferredTime" type="time">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="serviceRequestMessage">Project details</label>
+          <textarea id="serviceRequestMessage" name="message" rows="4" placeholder="Tell us what you need help with..." required></textarea>
+        </div>
+        <button type="submit" class="button">Submit request</button>
+        <p id="requestStatusMessage" class="request-status-message" aria-live="polite"></p>
+      </form>
+    </section>
   </main>
 
   <footer>

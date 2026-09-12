@@ -47,6 +47,7 @@ app.use("/api/auth", authLimiter, require("./routes/auth"));
 app.use("/api/contact", contactLimiter, require("./routes/contact"));
 app.use("/api/services", require("./routes/services"));
 app.use("/api/providers", require("./routes/providers"));
+app.use("/api/requests", require("./routes/requests"));
 app.use("/api/location", require("./routes/location"));
 
 mongoose.connect(MONGODB_URI)

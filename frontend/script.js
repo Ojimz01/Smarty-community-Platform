@@ -588,11 +588,83 @@ const renderServiceProviders = () => {
             setTimeout(() => {
                 button.textContent = button.classList.contains("primary") ? "Request Service" : "View Profile";
                 button.disabled = false;
-                alert(`${actionText} for ${provider}. This is a demo action in the development site.`);
+                const form = document.getElementById("serviceRequestForm");
+                const categoryInput = document.getElementById("serviceRequestCategory");
+                const nameInput = document.getElementById("serviceRequestName");
+                if (form && categoryInput && nameInput) {
+                    categoryInput.value = normalizedCategory;
+                    nameInput.value = `${provider} request`;
+                    window.scrollTo({ top: form.offsetTop - 30, behavior: "smooth" });
+                }
+                const requestStatus = document.getElementById("requestStatusMessage");
+                if (requestStatus) {
+                    requestStatus.textContent = `${actionText} for ${provider}. Complete the form below to send your request.`;
+                }
             }, 250);
         });
     });
 };
+
+const requestForm = document.getElementById("serviceRequestForm");
+const requestStatusMessage = document.getElementById("requestStatusMessage");
+
+if (requestForm) {
+    requestForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            if (requestStatusMessage) {
+                requestStatusMessage.textContent = "Please log in to submit a service request.";
+            }
+            window.location.href = "login.html";
+            return;
+        }
+
+        const formData = new FormData(requestForm);
+        const payload = {
+            category: (formData.get("category") || "").toString().trim(),
+            serviceName: (formData.get("serviceName") || "").toString().trim(),
+            preferredDate: (formData.get("preferredDate") || "").toString().trim(),
+            preferredTime: (formData.get("preferredTime") || "").toString().trim(),
+            message: (formData.get("message") || "").toString().trim(),
+            providerName: "Local provider"
+        };
+
+        if (!payload.category || !payload.serviceName || !payload.message) {
+            if (requestStatusMessage) {
+                requestStatusMessage.textContent = "Please complete the required fields.";
+            }
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:5000/api/requests/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Request submission failed.");
+            }
+
+            requestForm.reset();
+            if (requestStatusMessage) {
+                requestStatusMessage.textContent = data.message || "Your service request has been submitted.";
+            }
+        } catch (error) {
+            if (requestStatusMessage) {
+                requestStatusMessage.textContent = error.message || "Unable to submit your request right now.";
+            }
+        }
+    });
+}
 
 renderServiceProviders();
 

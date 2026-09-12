@@ -449,9 +449,32 @@ const loadMarketplaceData = async () => {
 const contactForm = document.querySelector(".contact-form");
 const contactMessage = document.getElementById("contactMessage");
 if (contactForm) {
-    contactForm.addEventListener("submit", () => {
+    contactForm.addEventListener("submit", (e) => {
+        const name = document.getElementById("contactName")?.value.trim() || "";
+        const email = document.getElementById("contactEmail")?.value.trim() || "";
+        const message = document.getElementById("contactMessageField")?.value.trim() || "";
+
+        if (!name || !email || !message) {
+            e.preventDefault();
+            if (contactMessage) {
+                contactMessage.textContent = "Please complete all fields before sending your message.";
+                contactMessage.style.color = "#fca5a5";
+            }
+            return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            e.preventDefault();
+            if (contactMessage) {
+                contactMessage.textContent = "Please enter a valid email address.";
+                contactMessage.style.color = "#fca5a5";
+            }
+            return;
+        }
+
         if (contactMessage) {
             contactMessage.textContent = "Sending your message...";
+            contactMessage.style.color = "#86efac";
         }
     });
 }
@@ -480,7 +503,10 @@ if (searchForm && searchInput) {
 }
 
 if (searchButton && searchInput) {
-    searchButton.addEventListener("click", submitSearch);
+    searchButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        submitSearch();
+    });
 }
 
 // ===== Search Results Page =====

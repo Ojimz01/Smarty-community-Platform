@@ -181,6 +181,10 @@ footer nav {
     align-items: center;
 }
 
+.main-nav {
+    margin-left: auto;
+}
+
 header nav a,
 footer nav a {
     color: var(--text);
@@ -952,7 +956,7 @@ body.services-page {
 
     .main-nav {
         position: absolute;
-        top: 100%;
+        top: calc(100% + 0.5rem);
         left: 1rem;
         right: 1rem;
         display: none;
@@ -961,10 +965,17 @@ body.services-page {
         border-radius: 20px;
         background: rgba(7,11,24,0.96);
         border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     }
 
     .main-nav.active {
         display: flex;
+    }
+
+    .main-nav a {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
     }
 
     .mobile-menu-toggle {

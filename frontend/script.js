@@ -1,7 +1,9 @@
-const API_URL = (() => {
+const API_BASE = (() => {
     const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-    return isLocal ? "http://localhost:5000/api/auth" : `${window.location.origin}/api/auth`;
+    return isLocal ? "http://localhost:5000/api" : `${window.location.origin}/api`;
 })();
+
+const API_URL = `${API_BASE}/auth`;
 
 // ===== Mobile Menu Toggle =====
 const mobileMenuToggle = document.getElementById("mobileMenuToggle");
@@ -403,8 +405,8 @@ const normalizeProvider = (provider) => ({
 const loadMarketplaceData = async () => {
     try {
         const [categoriesResponse, providersResponse] = await Promise.all([
-            fetch("http://localhost:5000/api/services/service-categories"),
-            fetch("http://localhost:5000/api/providers")
+            fetch(`${API_BASE}/services/service-categories`),
+            fetch(`${API_BASE}/providers`)
         ]);
 
         if (categoriesResponse.ok) {
@@ -724,7 +726,7 @@ async function loadRequestQueue() {
 
     try {
         const role = getDecodedTokenPayload().role || "customer";
-        const endpoint = role === "provider" ? "http://localhost:5000/api/requests/provider" : "http://localhost:5000/api/requests/mine";
+        const endpoint = role === "provider" ? `${API_BASE}/requests/provider` : `${API_BASE}/requests/mine`;
         const response = await fetch(endpoint, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -739,6 +741,9 @@ async function loadRequestQueue() {
         const items = data.requests || [];
         if (!items.length) {
             requestList.innerHTML = "<li>No service requests yet.</li>";
+            if (role === "provider") {
+                await refreshLocationAccessState();
+            }
             return;
         }
 
@@ -763,7 +768,7 @@ async function loadRequestQueue() {
                 button.addEventListener("click", async () => {
                     const requestId = button.dataset.id;
                     const status = button.dataset.status;
-                    const response = await fetch(`http://localhost:5000/api/requests/${requestId}/status`, {
+                    const response = await fetch(`${API_BASE}/requests/${requestId}/status`, {
                         method: "PATCH",
                         headers: {
                             "Content-Type": "application/json",
@@ -775,12 +780,14 @@ async function loadRequestQueue() {
                     const data = await response.json();
                     if (response.ok) {
                         await loadRequestQueue();
+                        await refreshLocationAccessState();
                         setLocationUi({ sharing: false, message: data.message || "Request updated.", tone: "success" });
                     } else {
                         setLocationUi({ sharing: false, message: data.message || "Unable to update request.", tone: "error" });
                     }
                 });
             });
+            await refreshLocationAccessState();
             return;
         }
 
@@ -842,7 +849,7 @@ async function sendLocationUpdate(latitude, longitude, mode = "start") {
         return;
     }
 
-    const response = await fetch(`http://localhost:5000/api/location/${mode}`, {
+    const response = await fetch(`${API_BASE}/location/${mode}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -882,7 +889,7 @@ async function stopLocationSharing() {
     }
 
     try {
-        const response = await fetch("http://localhost:5000/api/location/stop", {
+        const response = await fetch(`${API_BASE}/location/stop`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -1002,7 +1009,19 @@ if (stopLocationSharingBtn) {
     stopLocationSharingBtn.addEventListener("click", stopLocationSharing);
 }
 
-if (locationBadge && locationStatusText && locationMessage) {
+async function refreshLocationAccessState() {
+    if (!locationBadge || !locationStatusText || !locationMessage) {
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        setLocationUi({ sharing: false, message: "Please log in to use live location sharing.", tone: "error" });
+        if (startLocationSharingBtn) startLocationSharingBtn.disabled = true;
+        if (stopLocationSharingBtn) stopLocationSharingBtn.disabled = true;
+        return;
+    }
+
     const role = getDecodedTokenPayload().role || "customer";
     if (role !== "provider") {
         setLocationUi({
@@ -1010,45 +1029,51 @@ if (locationBadge && locationStatusText && locationMessage) {
             message: "Live location sharing is currently reserved for provider accounts.",
             tone: "neutral"
         });
-        startLocationSharingBtn.disabled = true;
-        stopLocationSharingBtn.disabled = true;
-    } else {
-        setLocationUi({ sharing: false, message: "Checking if you have an accepted service request...", tone: "neutral" });
-        fetch("http://localhost:5000/api/requests/provider", {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        })
-            .then(async (response) => {
-                const data = await response.json();
-                if (!response.ok) {
-                    throw new Error(data.message || "Unable to load request status.");
-                }
-                const approved = (data.requests || []).some((request) => request.status === "accepted");
-                if (!approved) {
-                    setLocationUi({
-                        sharing: false,
-                        message: "You need an accepted service request before live location sharing can begin.",
-                        tone: "neutral"
-                    });
-                    startLocationSharingBtn.disabled = true;
-                    stopLocationSharingBtn.disabled = true;
-                    return;
-                }
-                setLocationUi({ sharing: false, message: "Ready to start sharing your live location for an approved job.", tone: "neutral" });
-                startLocationSharingBtn.disabled = false;
-                stopLocationSharingBtn.disabled = false;
-            })
-            .catch(() => {
-                setLocationUi({
-                    sharing: false,
-                    message: "Unable to confirm your approved work status right now.",
-                    tone: "neutral"
-                });
-                startLocationSharingBtn.disabled = true;
-                stopLocationSharingBtn.disabled = true;
-            });
+        if (startLocationSharingBtn) startLocationSharingBtn.disabled = true;
+        if (stopLocationSharingBtn) stopLocationSharingBtn.disabled = true;
+        return;
     }
+
+    try {
+        setLocationUi({ sharing: false, message: "Checking if you have an accepted service request...", tone: "neutral" });
+        const response = await fetch(`${API_BASE}/requests/provider`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || "Unable to load request status.");
+        }
+
+        const approved = (data.requests || []).some((request) => request.status === "accepted");
+        if (!approved) {
+            setLocationUi({
+                sharing: false,
+                message: "You need an accepted service request before live location sharing can begin.",
+                tone: "neutral"
+            });
+            if (startLocationSharingBtn) startLocationSharingBtn.disabled = true;
+            if (stopLocationSharingBtn) stopLocationSharingBtn.disabled = true;
+            return;
+        }
+
+        setLocationUi({ sharing: false, message: "Ready to start sharing your live location for an approved job.", tone: "neutral" });
+        if (startLocationSharingBtn) startLocationSharingBtn.disabled = false;
+        if (stopLocationSharingBtn) stopLocationSharingBtn.disabled = false;
+    } catch (error) {
+        setLocationUi({
+            sharing: false,
+            message: error.message || "Unable to confirm your approved work status right now.",
+            tone: "neutral"
+        });
+        if (startLocationSharingBtn) startLocationSharingBtn.disabled = true;
+        if (stopLocationSharingBtn) stopLocationSharingBtn.disabled = true;
+    }
+}
+
+if (locationBadge && locationStatusText && locationMessage) {
+    refreshLocationAccessState();
 }
 
 window.addEventListener("beforeunload", () => {

@@ -367,6 +367,55 @@ footer {
     padding: 5rem 2rem;
 }
 
+.community-assurance {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    border-radius: 26px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(25, 37, 66, 0.9));
+    border: 1px solid rgba(125, 211, 252, 0.16);
+    box-shadow: 0 20px 45px rgba(2, 6, 23, 0.16);
+}
+
+.assurance-kicker {
+    display: inline-block;
+    margin-bottom: 0.3rem;
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.community-assurance strong {
+    display: block;
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    color: #f8fbff;
+}
+
+.assurance-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.assurance-points span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 0.82rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #e7edf8;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
 .testimonials {
     padding-top: 3.5rem;
 }
@@ -1043,16 +1092,27 @@ body.services-page {
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 260px;
 }
 
 .services .card::before {
     content: "";
     position: absolute;
     inset: 0 auto auto 0;
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     background: radial-gradient(circle, rgba(125, 211, 252, 0.18), transparent 70%);
     transform: translate(-30%, -30%);
+}
+
+.services .card::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 auto;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.15), transparent 68%);
+    transform: translate(30%, 32%);
 }
 
 .services .card img {

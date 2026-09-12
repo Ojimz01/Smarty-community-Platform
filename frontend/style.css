@@ -348,6 +348,10 @@ footer {
     padding: 5rem 2rem;
 }
 
+.testimonials {
+    padding-top: 3.5rem;
+}
+
 body.services-page {
     background: linear-gradient(180deg, #050816 0%, #0a1124 100%);
 }
@@ -1066,6 +1070,33 @@ body.services-page {
     box-shadow: 0 28px 60px rgba(2, 6, 23, 0.22);
 }
 
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+.testimonial {
+    padding: 1.8rem;
+    border-radius: 26px;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.testimonial p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #e5eefb;
+}
+
+.testimonial cite {
+    color: var(--accent-strong);
+    font-style: normal;
+    font-weight: 700;
+}
+
 .location-card {
     display: flex;
     flex-direction: column;
@@ -1151,6 +1182,10 @@ footer {
     background: #050613;
 }
 
+.contact {
+    background: linear-gradient(180deg, rgba(7, 11, 24, 0.98), rgba(12, 16, 30, 0.98));
+}
+
 .about p,
 .contact p {
     max-width: 760px;
@@ -1189,16 +1224,20 @@ footer {
 
 .testimonial {
     min-height: 220px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(13, 18, 30, 0.84));
+    border: 1px solid rgba(125, 211, 252, 0.12);
+    box-shadow: 0 20px 50px rgba(2, 6, 23, 0.18);
 }
 
 .testimonial p {
     margin-bottom: 1.2rem;
     font-size: 1rem;
+    color: #edf5ff;
 }
 
 .testimonial cite {
     display: block;
-    color: #e7f8ff;
+    color: var(--accent-strong);
     font-weight: 700;
 }
 
@@ -1207,6 +1246,11 @@ footer {
     margin: 0 auto;
     display: grid;
     gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 50px rgba(2, 6, 23, 0.16);
 }
 
 .contact-form input,
@@ -1281,6 +1325,11 @@ footer {
     max-width: 1200px;
     margin: 0 auto;
     flex-wrap: wrap;
+    padding-top: 0.5rem;
+}
+
+.footer-content nav a {
+    padding: 0.55rem 0.7rem;
 }
 
 .footer-logo {

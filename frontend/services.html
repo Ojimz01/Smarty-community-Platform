@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Providers - Smart Community</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="homepage services-page">
+  <header>
+    <div class="logo">
+      <img loading="lazy" src="assets/logo.svg" alt="Smart Community Logo" width="50" height="50">
+      <h1>Smart Community</h1>
+    </div>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="mainNav" class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="login.html" class="auth-link">Login</a>
+    </nav>
+  </header>
+
+  <main class="service-results-page">
+    <section class="service-results-hero">
+      <span class="service-kicker">Marketplace</span>
+      <h1 id="serviceTitle">Plumbing service providers</h1>
+      <p id="serviceSummary">Browse trusted plumbing professionals nearby and request a quote in minutes.</p>
+      <div class="service-result-meta">
+        <strong id="providerCount">0 providers available</strong>
+        <a class="button ghost" href="index.html">Back to home</a>
+      </div>
+      <div id="serviceCategoryTabs" class="service-category-tabs"></div>
+    </section>
+
+    <section class="provider-grid" id="providerGrid" aria-live="polite"></section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="assets/logo.svg" alt="Smart Community Logo" width="40" height="40">
+        <p>&copy; 2026 Smart Community. All rights reserved.</p>
+      </div>
+      <nav>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="index.html#contact">Contact Us</a>
+      </nav>
+      <div class="social-media">
+        <a class="social-icon facebook" href="#" aria-label="Facebook"><img src="assets/facebook.svg" alt="Facebook"></a>
+        <a class="social-icon x" href="#" aria-label="X"><img src="assets/twitter.svg" alt="X"></a>
+        <a class="social-icon instagram" href="#" aria-label="Instagram"><img src="assets/instagram.svg" alt="Instagram"></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

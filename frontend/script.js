@@ -232,6 +232,153 @@ const SERVICE_CATALOG = [
     }
 ];
 
+const PROVIDER_DATA = [
+    {
+        name: "BlueWave Plumbing Co.",
+        category: "Plumbing",
+        location: "Brookside",
+        description: "Emergency leak repairs, pipe replacements, and bathroom fixture installations for homes and rental properties.",
+        rating: 4.9,
+        availability: "Available today"
+    },
+    {
+        name: "FlowRight Services",
+        category: "Plumbing",
+        location: "Maple Grove",
+        description: "Fast, licensed plumbing support for kitchen, bathroom, and water heater maintenance with transparent pricing.",
+        rating: 4.8,
+        availability: "Bookings open this week"
+    },
+    {
+        name: "Harbor Pipeworks",
+        category: "Plumbing",
+        location: "Riverside",
+        description: "Residential and small-commercial plumbing solutions with same-day service and courteous technicians.",
+        rating: 4.7,
+        availability: "24/7 response"
+    },
+    {
+        name: "VoltCore Electric",
+        category: "Electrical",
+        location: "North Hill",
+        description: "Trusted residential electrical services including rewiring, lighting upgrades, and smart-home installations.",
+        rating: 5.0,
+        availability: "Available tomorrow"
+    },
+    {
+        name: "Spark & Panel",
+        category: "Electrical",
+        location: "Oak Park",
+        description: "Licensed electricians helping homeowners and landlords fix outages, install EV chargers, and improve safety.",
+        rating: 4.9,
+        availability: "Limited slots this week"
+    },
+    {
+        name: "Circuit Haven",
+        category: "Electrical",
+        location: "Cedar Point",
+        description: "Energy-efficient electrical solutions for homes, office spaces, and retail units with detailed inspections.",
+        rating: 4.8,
+        availability: "Open this afternoon"
+    },
+    {
+        name: "Oak & Pine Custom Works",
+        category: "Carpentry",
+        location: "Willow Creek",
+        description: "Custom shelving, cabinetry, and repair work designed to fit the flow of your home and daily routines.",
+        rating: 4.9,
+        availability: "Booked for 3 days"
+    },
+    {
+        name: "TimberCraft Build",
+        category: "Carpentry",
+        location: "Sunnyside",
+        description: "Skilled carpenters for framing, trim installations, furniture restoration, and interior upgrades.",
+        rating: 4.8,
+        availability: "Open next week"
+    },
+    {
+        name: "Hearth & Wood Studio",
+        category: "Carpentry",
+        location: "Elm Ridge",
+        description: "Interior woodwork, built-ins, and repair craftsmanship focused on durability and clean finishing.",
+        rating: 4.7,
+        availability: "Available this week"
+    },
+    {
+        name: "ColorNest Pro",
+        category: "Painting",
+        location: "Stonebridge",
+        description: "Interior and exterior painting with careful prep, durable finishes, and color consultation services.",
+        rating: 4.9,
+        availability: "Available today"
+    },
+    {
+        name: "Canvas & Coats",
+        category: "Painting",
+        location: "Fern Valley",
+        description: "Detailed painting for family homes, offices, and rental units using low-odor, modern finish options.",
+        rating: 4.8,
+        availability: "Bookings open"
+    },
+    {
+        name: "FreshHue Crew",
+        category: "Painting",
+        location: "Silver Lake",
+        description: "High-quality painting, accent walls, refresh projects, and exterior touch-ups for long-term curb appeal.",
+        rating: 4.7,
+        availability: "Open this weekend"
+    },
+    {
+        name: "SparkleNest Cleaning",
+        category: "Cleaning",
+        location: "Lakeview",
+        description: "Eco-conscious cleaning for homes, Airbnb stays, offices, and move-in or move-out refreshes.",
+        rating: 5.0,
+        availability: "Available today"
+    },
+    {
+        name: "FreshFrame Home Care",
+        category: "Cleaning",
+        location: "Briarwood",
+        description: "Routine and deep-cleaning services designed for busy households and property managers.",
+        rating: 4.9,
+        availability: "Open this week"
+    },
+    {
+        name: "Neat & Bright Co.",
+        category: "Cleaning",
+        location: "Crescent Hills",
+        description: "Reliable cleaning professionals focused on detail, consistency, and premium service standards.",
+        rating: 4.8,
+        availability: "Scheduling now"
+    },
+    {
+        name: "GreenScape Studio",
+        category: "Landscaping",
+        location: "Hawthorn",
+        description: "Garden design, lawn care, seasonal planting, and outdoor refresh projects tailored to your space.",
+        rating: 4.9,
+        availability: "Available this week"
+    },
+    {
+        name: "Root & Bloom",
+        category: "Landscaping",
+        location: "Meadow Park",
+        description: "Outdoor maintenance and design plans to improve curb appeal, drainage, and year-round greenery.",
+        rating: 4.8,
+        availability: "Open next week"
+    },
+    {
+        name: "Lawn Logic Co.",
+        category: "Landscaping",
+        location: "Westfield",
+        description: "Practical landscaping services for ongoing maintenance, planting, and property beautification.",
+        rating: 4.7,
+        availability: "Limited openings"
+    }
+];
+
 // ===== Contact Form =====
 const contactForm = document.querySelector(".contact-form");
 const contactMessage = document.getElementById("contactMessage");
@@ -306,6 +453,86 @@ if (searchResults && searchQueryText) {
         `).join("");
     }
 }
+
+// ===== Services Marketplace =====
+const serviceCategoryTabs = document.getElementById("serviceCategoryTabs");
+const serviceTitle = document.getElementById("serviceTitle");
+const serviceSummary = document.getElementById("serviceSummary");
+const providerGrid = document.getElementById("providerGrid");
+const providerCount = document.getElementById("providerCount");
+
+const renderServiceProviders = () => {
+    if (!serviceCategoryTabs || !serviceTitle || !serviceSummary || !providerGrid) {
+        return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get("category") || "Plumbing";
+    const normalizedCategory = category.trim();
+
+    const providers = PROVIDER_DATA.filter((provider) => provider.category === normalizedCategory);
+    const categoryLabel = normalizedCategory || "Services";
+
+    serviceTitle.innerText = `${categoryLabel} service providers`;
+    serviceSummary.innerText = `Browse trusted ${categoryLabel.toLowerCase()} professionals nearby and request a quote in minutes.`;
+    providerCount.innerText = `${providers.length} provider${providers.length === 1 ? "" : "s"} available`;
+
+    const tabs = SERVICE_CATALOG.map((service) => `
+        <a class="service-tab ${service.title === normalizedCategory ? "active" : ""}" href="services.html?category=${encodeURIComponent(service.title)}">${service.title}</a>
+    `).join("");
+    serviceCategoryTabs.innerHTML = tabs;
+
+    if (providers.length === 0) {
+        providerGrid.innerHTML = `
+            <div class="provider-card no-results">
+                <h4>No providers found</h4>
+                <p>There are no listings yet for this category. Try another service from the menu above.</p>
+            </div>
+        `;
+        return;
+    }
+
+    providerGrid.innerHTML = providers.map((provider) => {
+        const stars = Array.from({ length: 5 }, (_, index) => index < Math.round(provider.rating) ? "★" : "☆").join("");
+
+        return `
+            <article class="provider-card">
+                <div class="provider-header">
+                    <div>
+                        <span class="provider-tag">${provider.category}</span>
+                        <h3>${provider.name}</h3>
+                    </div>
+                    <span class="provider-rating">${stars} <strong>${provider.rating.toFixed(1)}</strong></span>
+                </div>
+                <div class="provider-meta">
+                    <span>${provider.location}</span>
+                    <span>${provider.availability}</span>
+                </div>
+                <p>${provider.description}</p>
+                <div class="provider-actions">
+                    <button type="button" class="provider-button secondary" data-provider="${provider.name}">View Profile</button>
+                    <button type="button" class="provider-button primary" data-provider="${provider.name}">Request Service</button>
+                </div>
+            </article>
+        `;
+    }).join("");
+
+    document.querySelectorAll(".provider-button").forEach((button) => {
+        button.addEventListener("click", () => {
+            const provider = button.dataset.provider || "this provider";
+            const actionText = button.classList.contains("primary") ? "Service request sent" : "Profile opened";
+            button.textContent = actionText;
+            button.disabled = true;
+            setTimeout(() => {
+                button.textContent = button.classList.contains("primary") ? "Request Service" : "View Profile";
+                button.disabled = false;
+                alert(`${actionText} for ${provider}. This is a demo action in the development site.`);
+            }, 250);
+        });
+    });
+};
+
+renderServiceProviders();
 
 // ===== Dashboard =====
 const welcomeText = document.getElementById("welcomeText");

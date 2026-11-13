@@ -24,33 +24,39 @@ const requireAuth = async (req, res, next) => {
 
   const secret = process.env.JWT_SECRET;
 
-  if (!secret) {
-    return res.status(500).json({ message: "Server authentication is not configured." });
+  if (!secret || secret.length < 32) {
+    return res.status(500).json({ message: "Server authentication is not securely configured." });
   }
 
+  let decoded;
   try {
-    const decoded = jwt.verify(token, secret);
-
-    if (!decoded || !decoded.id) {
-      return res.status(401).json({ message: "Invalid token payload." });
-    }
-
-    const user = await User.findById(decoded.id).select("-password");
-
-    if (!user) {
-      return res.status(401).json({ message: "User not found." });
-    }
-
-    req.user = {
-      id: user._id.toString(),
-      email: user.email,
-      role: user.role || "customer"
-    };
-
-    return next();
+    decoded = jwt.verify(token, secret);
   } catch (error) {
     return res.status(401).json({ message: "Invalid or expired token." });
   }
+
+  if (!decoded || !decoded.id) {
+    return res.status(401).json({ message: "Invalid token payload." });
+  }
+
+  let user;
+  try {
+    user = await User.findById(decoded.id).select("-password");
+  } catch (error) {
+    return res.status(503).json({ message: "Authentication service is temporarily unavailable." });
+  }
+
+  if (!user) {
+    return res.status(401).json({ message: "User not found." });
+  }
+
+  req.user = {
+    id: user._id.toString(),
+    email: user.email,
+    role: user.role || "customer"
+  };
+
+  return next();
 };
 
 const requireRole = (...allowedRoles) => (req, res, next) => {

@@ -3,62 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <meta name="theme-color" content="#fdfcfc">
+    <meta name="description" content="Manage your Smart Community requests, service listings, saved providers, and messages in one dashboard.">
+    <title>Dashboard — Smart Community</title>
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dashboard-page">
 
+    <a class="skip-link" href="#main">Skip to content</a>
+
     <header class="dashboard-header">
-        <div class="logo">
-            <img src="assets/logo.svg" alt="Smart Community Logo" width="42" height="42">
-            <div>
-              <p>Smart Community</p>
-              <span>Dashboard</span>
+        <div class="shell dashboard-header-inner">
+            <a class="brand" href="index.html" aria-label="Smart Community home">
+                <img src="assets/logo.svg" alt="" width="36" height="36">
+                <span>
+                    <span class="brand-name">Smart Community</span>
+                    <span class="brand-meta">Dashboard</span>
+                </span>
+            </a>
+            <div class="dashboard-header-actions">
+                <button type="button" class="notification-toggle" id="notificationToggle" aria-expanded="false" aria-controls="notificationPanel">
+                    Notifications <span class="notification-count hidden" id="notificationCount" aria-label="Unread notifications">0</span>
+                </button>
+                <button class="logout-button" onclick="logout()" aria-label="Logout">Log out</button>
             </div>
         </div>
-        <button class="logout-button" onclick="logout()" aria-label="Logout">Logout</button>
     </header>
 
-    <main class="dashboard">
+    <main class="dashboard" id="main">
+        <section class="notification-panel card hidden" id="notificationPanel" aria-label="Notifications">
+            <div class="notification-panel-heading">
+                <div>
+                    <p class="eyebrow">Updates</p>
+                    <h2>Notifications</h2>
+                    <p>Refreshes automatically while this dashboard is open.</p>
+                </div>
+                <button type="button" class="mini-button" id="markNotificationsRead">Mark all read</button>
+            </div>
+            <ul id="notificationList" class="notification-list" aria-live="polite">
+                <li>Loading notifications...</li>
+            </ul>
+        </section>
+
         <section class="dashboard-hero">
             <div>
                 <p class="eyebrow">Welcome back</p>
                 <h1 id="welcomeText"></h1>
-                <p>Manage your account, view updates, and track your trusted service providers.</p>
+                <p>Manage your account, view updates, and keep track of your service providers.</p>
             </div>
             <div class="dashboard-stats">
                 <div>
-                    <strong>12</strong>
+                    <strong id="dashboardRequestTotal">0</strong>
                     <span>Requests</span>
                 </div>
                 <div>
-                    <strong>8</strong>
-                    <span>Active pros</span>
+                    <strong id="dashboardActiveTotal">0</strong>
+                    <span id="dashboardActiveLabel">Active</span>
                 </div>
                 <div>
-                    <strong>98%</strong>
-                    <span>Response rate</span>
+                    <strong id="dashboardCompletedTotal">0</strong>
+                    <span>Completed</span>
                 </div>
             </div>
         </section>
 
         <section class="dashboard-cards">
-            <div class="card">
-                    <img loading="lazy" src="assets/profile.svg" alt="Profile icon" width="50" height="50">
-                <h3>Profile</h3>
-                <p>View your account details and preferences.</p>
+            <div class="card account-workspace" id="accountWorkspace">
+                <div>
+                    <p class="eyebrow">Account</p>
+                    <h3 id="workspaceTitle">Your profile</h3>
+                </div>
+                <form id="accountProfileForm" class="dashboard-form">
+                    <label>Username<input id="accountUsername" name="username" minlength="3" maxlength="60" required></label>
+                    <label>Phone<input id="accountPhone" name="phone" type="tel" maxlength="30"></label>
+                    <label>Location<input id="accountLocation" name="location" maxlength="120"></label>
+                    <button class="button" type="submit">Save account details</button>
+                    <p id="accountProfileMessage" aria-live="polite"></p>
+                </form>
+
+                <div id="providerWorkspace" class="hidden">
+                    <h3>Provider profile</h3>
+                    <form id="providerProfileForm" class="dashboard-form">
+                        <label>Business name<input id="businessName" name="businessName" minlength="2" maxlength="100" required></label>
+                        <label>Professional bio<textarea id="providerBio" name="bio" maxlength="1500" rows="3"></textarea></label>
+                        <label>Public contact phone<input id="providerPhone" name="phone" type="tel" maxlength="30" required></label>
+                        <label>Service location<input id="providerLocation" name="location" maxlength="120" required></label>
+                        <label class="checkbox-label"><input id="providerAvailable" name="isAvailable" type="checkbox" checked> Accepting new requests</label>
+                        <button class="button" type="submit">Save provider profile</button>
+                        <p id="providerProfileMessage" aria-live="polite"></p>
+                    </form>
+
+                    <h3>Add a service</h3>
+                    <form id="serviceListingForm" class="dashboard-form">
+                        <input id="listingEditId" type="hidden">
+                        <label>Service name<input id="listingName" name="name" minlength="3" maxlength="100" required></label>
+                        <label>Category<select id="listingCategory" name="category" required><option value="">Loading categories...</option></select></label>
+                        <label>Description<textarea id="listingDescription" name="description" minlength="10" maxlength="2000" rows="3" required></textarea></label>
+                        <div class="dashboard-form-row">
+                            <label>Price<input id="listingPrice" name="price" type="number" min="0" step="0.01" required></label>
+                            <label>Currency<input id="listingCurrency" name="currency" value="USD" minlength="3" maxlength="3" required></label>
+                        </div>
+                        <label>Price basis<select id="listingPriceUnit" name="priceUnit"><option value="fixed">Fixed</option><option value="hour">Per hour</option><option value="visit">Per visit</option></select></label>
+                        <button class="button" id="serviceListingSubmit" type="submit">Publish service</button>
+                        <button class="location-button secondary hidden" id="cancelServiceEdit" type="button">Cancel edit</button>
+                        <p id="serviceListingMessage" aria-live="polite"></p>
+                    </form>
+                    <div id="serviceListingList" class="dashboard-list"></div>
+                    <div id="providerReviewList" class="dashboard-list"></div>
+                </div>
             </div>
 
-             <div class="card">
-                <img loading="lazy" src="assets/messages.svg" alt="Messages icon" width="50" height="50">
-                <h3>Messages</h3>
-                <p>Check your messages and service updates.</p>
+            <div class="card customer-profile-card hidden" id="customerProfileCard">
+                <p class="eyebrow">Customer account</p>
+                <p>Manage your details, request local services, and keep track of every job from request to completion.</p>
+                <a class="button" href="services.html">Browse services</a>
             </div>
 
-             <div class="card">
-                <img loading="lazy" src="assets/settings.svg" alt="Settings icon" width="50" height="50">
-                <h3>Settings</h3>
-                <p>Manage your account and notification settings.</p>
+            <div class="card favorite-providers-card hidden" id="favoriteProvidersCard">
+                <div class="favorite-providers-heading">
+                    <div>
+                        <p class="eyebrow">Your shortlist</p>
+                        <h3>Saved providers</h3>
+                    </div>
+                    <a href="services.html">Browse all services</a>
+                </div>
+                <ul id="favoriteProviderList" class="favorite-provider-list" aria-live="polite">
+                    <li>Loading saved providers...</li>
+                </ul>
             </div>
 
             <div class="card location-card" id="locationCard">
@@ -85,6 +160,7 @@
                     </div>
                 </div>
                 <ul id="requestList" class="request-list"></ul>
+                <p id="requestFeedback" aria-live="polite"></p>
             </div>
         </section>
     </main>

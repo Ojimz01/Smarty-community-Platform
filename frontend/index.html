@@ -1,319 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Smart Community helps people find trusted local service providers for home, repair, and everyday support needs.">
-    <meta name="theme-color" content="#070b18">
-    <meta property="og:title" content="Smart Community | Local Service Marketplace">
-    <meta property="og:description" content="A trusted local service marketplace for finding home and community support.">
-    <meta property="og:type" content="website">
-    <title>Smart Community | Local Service Marketplace</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Smart Community connects you with local service providers for plumbing, cleaning, repairs, and everyday help. Send a request and keep every job in one place.">
+  <meta name="theme-color" content="#fdfcfc">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://smarty-community-platform.vercel.app/">
+  <meta property="og:site_name" content="Smart Community">
+  <meta property="og:url" content="https://smarty-community-platform.vercel.app/">
+  <meta property="og:image" content="https://smarty-community-platform.vercel.app/assets/logo.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:title" content="Smart Community — Local services, handled with care">
+  <meta property="og:description" content="Find local service providers, send a clear request, and track every job from start to finish.">
+  <meta property="og:type" content="website">
+  <title>Smart Community — Local services, handled with care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="homepage">
 
-   <header>
-    <div class="logo">
-        <img src="assets/logo.svg" alt="Smart Community Logo" width="50" height="50">
-        <h1>Smart Community</h1>
-    </div>
-    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="Smart Community home">
+        <img src="assets/logo.svg" alt="" width="36" height="36">
+        <span class="brand-name">Smart Community</span>
+      </a>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">
         <span></span>
         <span></span>
         <span></span>
-    </button>
-    <nav id="mainNav" class="main-nav">
-        <a href="index.html">Home</a>
+      </button>
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
         <a href="#services">Services</a>
-        <a href="#about">About</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#providers">For providers</a>
         <a href="#contact">Contact</a>
-        <a href="login.html" class="auth-link">Login</a>
-    </nav>
-   </header>
+        <div class="header-actions">
+          <a class="button ghost" href="login.html">Sign in</a>
+          <a class="button" href="register.html">Create account</a>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-   <main>
-   <section class="hero" aria-labelledby="heroHeading">
-    <div class="hero-copy">
-      <span class="hero-badge">Trusted local services</span>
-      <h2 id="heroHeading">Find Services. Build Community.</h2>
-      <p>Connect with trusted professionals near you for all your home and community needs.</p>
-      <form id="searchForm" class="search-container" role="search" aria-label="Search services">
+  <main id="main">
+    <section class="shell hero" aria-labelledby="heroHeading">
+      <div class="hero-copy">
+        <p class="eyebrow">Local service marketplace</p>
+        <h1 id="heroHeading">Good help is closer than you think.</h1>
+        <p class="hero-lede">Find local providers for the jobs around your home and community. Send a clear request, compare your options, and keep every conversation in one place.</p>
+
+        <form id="searchForm" class="search-container" role="search" aria-label="Search services">
           <label class="sr-only" for="searchInput">Search services</label>
-          <input id="searchInput" type="search" placeholder="What service do you need?" aria-label="Search services">
+          <input id="searchInput" type="search" placeholder="What do you need help with?" aria-label="Search services">
           <button id="searchButton" type="submit">Search</button>
-      </form>
-      <div class="hero-actions">
-          <a class="button ghost" href="#services">Explore services</a>
-          <a class="button" href="login.html">Login</a>
-      </div>
-      <div class="hero-highlights">
-        <div class="highlight-card">
-          <strong>Clear requests</strong>
-          <span>Share what you need in a few simple steps.</span>
+        </form>
+
+        <div class="hero-meta">
+          <span>Popular:</span>
+          <a href="services.html?category=Plumbing">Plumbing</a>
+          <a href="services.html?category=Cleaning">Cleaning</a>
+          <a href="services.html?category=Electrical">Electrical</a>
+          <a href="services.html?category=Landscaping">Landscaping</a>
         </div>
-        <div class="highlight-card">
-          <strong>Smart matching</strong>
-          <span>Browse service categories and nearby providers.</span>
-        </div>
-        <div class="highlight-card">
-          <strong>Safe coordination</strong>
-          <span>Location updates only happen for active approved requests.</span>
+
+        <div class="hero-actions">
+          <a class="button" href="services.html">Browse services</a>
+          <a class="button ghost" href="register.html">Join the community</a>
         </div>
       </div>
-      <div class="trust-pills" aria-label="Trust markers">
-        <span>Verified pros</span>
-        <span>Community-first</span>
-        <span>On-time updates</span>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="preview-sheet">
+          <div class="preview-sheet-top">
+            <span class="preview-kicker">Example request</span>
+            <span class="preview-status">Accepted</span>
+          </div>
+          <h3>Kitchen tap repair</h3>
+          <p>Leaking mixer tap and a slow drain in the kitchen.</p>
+          <div class="preview-rows">
+            <div><span>Provider</span><strong>Amara Okafor</strong></div>
+            <div><span>When</span><strong>Thu, 14 Nov · 10:00</strong></div>
+            <div><span>Estimate</span><strong>$85</strong></div>
+          </div>
+          <div class="preview-thread">
+            <span class="avatar">AO</span>
+            <p>On my way — about 15 minutes out.</p>
+          </div>
+        </div>
+        <div class="preview-float">
+          <span class="float-dot"></span>
+          <div>
+            <strong>Provider accepted</strong>
+            <span>2 minutes ago</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section categories-section" aria-labelledby="servicesHeading">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Browse services</p>
+            <h2 id="servicesHeading">Start with what you need.</h2>
+          </div>
+          <p>Twelve practical categories, one straightforward request flow. Every listing is published by a local provider.</p>
+        </div>
+
+        <div class="category-grid">
+          <a class="category-card" href="services.html?category=Plumbing" data-category="Plumbing">
+            <span class="category-icon"><img loading="lazy" src="assets/plumbing.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Plumbing</h3>
+              <p>Leaks, pipes, fittings, and installations.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Electrical" data-category="Electrical">
+            <span class="category-icon"><img loading="lazy" src="assets/electrical.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Electrical</h3>
+              <p>Wiring, repairs, and safe installations.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Carpentry" data-category="Carpentry">
+            <span class="category-icon"><img loading="lazy" src="assets/carpentry.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Carpentry</h3>
+              <p>Custom woodwork, repairs, and fittings.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Painting" data-category="Painting">
+            <span class="category-icon"><img loading="lazy" src="assets/painting.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Painting</h3>
+              <p>Interior and exterior painting work.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Cleaning" data-category="Cleaning">
+            <span class="category-icon"><img loading="lazy" src="assets/cleaning.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Cleaning</h3>
+              <p>Home, office, and deep-cleaning services.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Landscaping" data-category="Landscaping">
+            <span class="category-icon"><img loading="lazy" src="assets/landscaping.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Landscaping</h3>
+              <p>Garden design, upkeep, and outdoor upgrades.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Car%20repairs" data-category="Car repairs">
+            <span class="category-icon"><img loading="lazy" src="assets/car-repairs.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Car repairs</h3>
+              <p>Automotive repair and routine maintenance.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Catering" data-category="Catering">
+            <span class="category-icon"><img loading="lazy" src="assets/catering.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Catering</h3>
+              <p>Food preparation and event catering.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Fashion%20and%20tailoring" data-category="Fashion and tailoring">
+            <span class="category-icon"><img loading="lazy" src="assets/tailoring.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Fashion and tailoring</h3>
+              <p>Garment design, alterations, and repairs.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Hairdressing" data-category="Hairdressing">
+            <span class="category-icon"><img loading="lazy" src="assets/hairdressing.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Hairdressing</h3>
+              <p>Hair styling, treatments, and care.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Computer%20repairs" data-category="Computer repairs">
+            <span class="category-icon"><img loading="lazy" src="assets/computer-repairs.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Computer repairs</h3>
+              <p>Diagnostics, repairs, and setup.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+
+          <a class="category-card" href="services.html?category=Other%20useful%20services" data-category="Other useful services">
+            <span class="category-icon"><img loading="lazy" src="assets/other-services.svg" alt="" width="24" height="24"></span>
+            <div class="category-card-body">
+              <h3>Other useful services</h3>
+              <p>More local help from community providers.</p>
+              <span class="category-card-arrow">View providers <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="section how-section" aria-labelledby="howHeading">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">How it works</p>
+            <h2 id="howHeading">Three steps. No guesswork.</h2>
+          </div>
+          <p>No bidding wars and no vague call-outs. You stay in control of the request from start to finish.</p>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step-card">
+            <span class="step-index">01</span>
+            <h3>Find a provider</h3>
+            <p>Browse by category or search by service and location. Every listing shows the provider, price, and availability.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-index">02</span>
+            <h3>Send a request</h3>
+            <p>Share the job, the address, and a time that works. Your request goes straight to the provider's dashboard.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-index">03</span>
+            <h3>Get it done</h3>
+            <p>Track the status, message your provider, and leave a review when the work is complete.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="providers" class="section audience-section" aria-labelledby="audienceHeading">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Built for both sides</p>
+            <h2 id="audienceHeading">One place for the whole job.</h2>
+          </div>
+          <p>Customers get clarity. Providers get a simple way to manage the work they want.</p>
+        </div>
+
+        <div class="audience-grid">
+          <article class="audience-card">
+            <div>
+              <h3>Need a hand?</h3>
+              <p>Find help without the runaround. Save the providers you trust and keep every request in your dashboard.</p>
+              <ul class="audience-list">
+                <li>Search real service listings from local providers.</li>
+                <li>Save providers and come back when you need them.</li>
+                <li>Track status changes, messages, and reviews in one place.</li>
+              </ul>
+            </div>
+            <a class="button ghost" href="services.html">Browse services</a>
+          </article>
+
+          <article class="audience-card dark">
+            <div>
+              <h3>Offer your craft.</h3>
+              <p>Publish the services you offer, set your own prices, and accept the jobs that fit your schedule.</p>
+              <ul class="audience-list">
+                <li>Create a public provider profile and service listings.</li>
+                <li>Accept, start, and complete requests from your dashboard.</li>
+                <li>Keep customers updated with request-based messaging.</li>
+              </ul>
+            </div>
+            <a class="button light" href="register.html">Create a provider account</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section" aria-labelledby="contactHeading">
+      <div class="shell contact-layout">
+        <div class="contact-copy">
+          <p class="eyebrow">Contact</p>
+          <h2 id="contactHeading">Questions before you start?</h2>
+          <p>Send a note and we'll get back to you. If your question is about an active job, include the request number from your dashboard.</p>
+          <div class="contact-details">
+            <div>
+              <strong>Email</strong>
+              <span>ojimadaniel2013@gmail.com</span>
+            </div>
+            <div>
+              <strong>Response time</strong>
+              <span>Usually within one working day.</span>
+            </div>
+          </div>
+        </div>
+
+        <form id="contactForm" class="contact-form" action="https://formsubmit.co/ojimadaniel2013@gmail.com" method="POST">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_subject" value="Smart Community contact form">
+          <input type="hidden" name="_next" value="https://smarty-community-platform.vercel.app/">
+          <div class="form-group">
+            <label for="contactName">Your name</label>
+            <input id="contactName" name="name" type="text" placeholder="Full name" autocomplete="name" required>
+          </div>
+          <div class="form-group">
+            <label for="contactEmail">Email address</label>
+            <input id="contactEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="form-group">
+            <label for="contactMessageField">Message</label>
+            <textarea id="contactMessageField" name="message" placeholder="How can we help?" required></textarea>
+          </div>
+          <button type="submit">Send message</button>
+          <div id="contactMessage" class="form-message" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img src="assets/logo.svg" alt="" width="34" height="34">
+            <span class="brand-name">Smart Community</span>
+          </a>
+          <p>Local services, handled with care. Built for neighbors who would rather help each other than go through a call center.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Marketplace</h4>
+          <a href="services.html">Browse services</a>
+          <a href="search.html?q=cleaning">Search</a>
+          <a href="#how-it-works">How it works</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Account</h4>
+          <a href="login.html">Sign in</a>
+          <a href="register.html">Create account</a>
+          <a href="dashboard.html">Dashboard</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="#contact">Contact us</a>
+          <a href="services.html">Provider listings</a>
+          <a href="#providers">For providers</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Smart Community. All rights reserved.</p>
+        <p>Made for local neighborhoods.</p>
       </div>
     </div>
-    <div class="hero-image-wrap">
-    <img class="hero-image" loading="lazy" src="assets/hero.svg" alt="Community services illustration">
-    </div>
-   </section>
+  </footer>
 
-   <div class="community-assurance" aria-label="Community assurance overview">
-      <div>
-        <span class="assurance-kicker">Community-first</span>
-        <strong>Clear requests. Trusted professionals. Simple communication.</strong>
-      </div>
-      <div class="assurance-points">
-        <span>Verified local support</span>
-        <span>Transparent service flow</span>
-        <span>Privacy-conscious tracking</span>
-      </div>
-   </div>
-
-   <section class="proof-strip" aria-label="Smart Community trust metrics">
-      <div class="proof-card">
-        <strong>6</strong>
-        <span>service categories</span>
-      </div>
-      <div class="proof-card">
-        <strong>3</strong>
-        <span>user roles</span>
-      </div>
-      <div class="proof-card">
-        <strong>1</strong>
-        <span>request flow</span>
-      </div>
-      <div class="proof-card">
-        <strong>Clear</strong>
-        <span>community-first process</span>
-      </div>
-   </section>
-
-   <section id="services" class="services">
-    <h3>Popular Services</h3>
-    <div class="services-grid">
-        <a class="card service-card" href="services.html?category=Plumbing" data-category="Plumbing">
-            <img loading="lazy" src="assets/plumbing.svg" alt="Plumbing" width="100" height="100">
-            <h4>Plumbing</h4>
-            <p>Fix leaks and pipes with expert plumbers.</p>
-        </a>
-
-        <a class="card service-card" href="services.html?category=Electrical" data-category="Electrical">
-            <img loading="lazy" src="assets/electrical.svg" alt="Electrical" width="100" height="100">
-            <h4>Electrical</h4>
-            <p>Wiring and repairs by certified electricians.</p>
-        </a>
-
-        <a class="card service-card" href="services.html?category=Carpentry" data-category="Carpentry">
-            <img loading="lazy" src="assets/carpentry.svg" alt="Carpentry" width="100" height="100">
-            <h4>Carpentry</h4>
-            <p>Custom woodwork and furniture repairs.</p>
-        </a>
-
-        <a class="card service-card" href="services.html?category=Painting" data-category="Painting">
-            <img loading="lazy" src="assets/painting.svg" alt="Painting" width="100" height="100">
-            <h4>Painting</h4>
-            <p>Interior and exterior painting services.</p>
-        </a>
-
-        <a class="card service-card" href="services.html?category=Cleaning" data-category="Cleaning">
-            <img loading="lazy" src="assets/cleaning.svg" alt="Cleaning" width="100" height="100">
-            <h4>Cleaning</h4>
-            <p>Professional cleaning for homes and offices.</p>
-        </a>
-
-        <a class="card service-card" href="services.html?category=Landscaping" data-category="Landscaping">
-            <img loading="lazy" src="assets/landscaping.svg" alt="Landscaping" width="100" height="100">
-            <h4>Landscaping</h4>
-            <p>Garden design and maintenance.</p>
-        </a>
-    </div>
-   </section>
-
-   <section class="trust-section" aria-labelledby="trustHeading">
-    <div class="section-intro">
-        <p class="eyebrow">Why people use Smart Community</p>
-        <h3 id="trustHeading">Built for simple, trustworthy service requests.</h3>
-    </div>
-    <div class="platform-stats">
-        <div class="stat-card">
-            <strong>6</strong>
-            <span>core service categories</span>
-        </div>
-        <div class="stat-card">
-            <strong>3</strong>
-            <span>user roles in the platform</span>
-        </div>
-        <div class="stat-card">
-            <strong>1</strong>
-            <span>secure request flow</span>
-        </div>
-    </div>
-   </section>
-
-   <section class="community-impact" aria-labelledby="impactHeading">
-    <div class="section-intro">
-        <p class="eyebrow">Community impact</p>
-        <h3 id="impactHeading">Built to make everyday help feel more approachable.</h3>
-    </div>
-    <div class="impact-grid">
-        <article class="impact-card">
-            <span class="impact-icon">⚡</span>
-            <h4>Fast local response</h4>
-            <p>Residents can request help quickly and find the right nearby support without confusion.</p>
-        </article>
-        <article class="impact-card">
-            <span class="impact-icon">🤝</span>
-            <h4>Trustworthy relationships</h4>
-            <p>Clear service flow and verified local professionals create stronger community confidence.</p>
-        </article>
-        <article class="impact-card">
-            <span class="impact-icon">🔒</span>
-            <h4>Secure coordination</h4>
-            <p>Live updates and access are only enabled when an accepted request is already in place.</p>
-        </article>
-        <article class="impact-card">
-            <span class="impact-icon">📍</span>
-            <h4>Location-aware support</h4>
-            <p>Customers and providers can coordinate more efficiently when it is safe and truly needed.</p>
-        </article>
-    </div>
-   </section>
-
-   <section class="how-it-works" aria-labelledby="howItWorksHeading">
-    <div class="section-intro">
-        <p class="eyebrow">How it works</p>
-        <h3 id="howItWorksHeading">A clear, honest process from request to completion.</h3>
-    </div>
-    <div class="steps-grid">
-        <article class="step-card">
-            <span>01</span>
-            <h4>Search</h4>
-            <p>Browse the categories that match your need and find the right local service.</p>
-        </article>
-        <article class="step-card">
-            <span>02</span>
-            <h4>Request</h4>
-            <p>Send a service request with your details, preferred date, and task requirements.</p>
-        </article>
-        <article class="step-card">
-            <span>03</span>
-            <h4>Accept</h4>
-            <p>Providers review and accept work only when the request is appropriate and active.</p>
-        </article>
-        <article class="step-card">
-            <span>04</span>
-            <h4>Track safely</h4>
-            <p>Live location sharing is only activated after an accepted service relationship is in place.</p>
-        </article>
-    </div>
-   </section>
-
-   <section class="cta-strip" aria-labelledby="ctaHeading">
-    <div class="cta-copy">
-      <p class="eyebrow">Ready when you are</p>
-      <h3 id="ctaHeading">Get the right help for your next home or community need.</h3>
-    </div>
-    <div class="cta-actions">
-      <a class="button" href="services.html">Browse services</a>
-      <a class="button ghost" href="login.html">Join now</a>
-    </div>
-   </section>
-
-   <section id="about" class="about">
-    <h3>About Us</h3>
-    <p>Smart Community connects people with service providers in a simple, respectful, and community-first way. The platform is designed to make everyday help easier to find without adding noise or false promises.</p>
-    <div class="stats">
-        <div class="stat">
-            <h4>6</h4>
-            <p>Service Categories</p>
-        </div>
-        <div class="stat">
-            <h4>3</h4>
-            <p>User Roles</p>
-        </div>
-        <div class="stat">
-            <h4>1</h4>
-            <p>Trusted Request Flow</p>
-        </div>
-    </div>
-   </section>
-
-   <section id="testimonials" class="testimonials">
-    <h3>Community feedback</h3>
-    <div class="testimonial-grid">
-        <div class="testimonial">
-            <p>"The request flow was simple, and it helped me quickly find the right kind of help for my home."</p>
-            <cite>- Homeowner</cite>
-        </div>
-        <div class="testimonial">
-            <p>"I liked how clear the process was. It made getting support feel more straightforward and less stressful."</p>
-            <cite>- Local resident</cite>
-        </div>
-        <div class="testimonial">
-            <p>"It felt more organized than searching blindly online, and the service categories made the process easier to understand."</p>
-            <cite>- Community member</cite>
-        </div>
-    </div>
-   </section>
-
-   <section id="contact" class="contact">
-    <h3>Contact Us</h3>
-    <p>Have questions? Reach out to us!</p>
-    <form id="contactForm" class="contact-form" action="https://formsubmit.co/ojimadaniel2013@gmail.com" method="POST">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" value="Smart Community Contact Form Submission">
-        <input type="hidden" name="_next" value="https://smarty-community-platform.vercel.app/">
-        <div class="form-group">
-            <label for="contactName">Your Name</label>
-            <input id="contactName" name="name" type="text" placeholder="Your Name" required>
-        </div>
-        <div class="form-group">
-            <label for="contactEmail">Your Email</label>
-            <input id="contactEmail" name="email" type="email" placeholder="Your Email" required>
-        </div>
-        <div class="form-group">
-            <label for="contactMessageField">Your Message</label>
-            <textarea id="contactMessageField" name="message" placeholder="Your Message" required></textarea>
-        </div>
-        <button type="submit">Send Message</button>
-        <div id="contactMessage" class="form-message" aria-live="polite"></div>
-    </form>
-   </section>
-   </main>
-
-   <footer>
-    <div class="footer-content">
-        <div class="footer-logo">
-            <img src="assets/logo.svg" alt="Smart Community Logo" width="40" height="40">
-            <p>&copy; 2026 Smart Community. All rights reserved.</p>
-        </div>
-        <nav>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#contact">Contact Us</a>
-        </nav>
-        <div class="social-media">
-            <a class="social-icon facebook" href="#" aria-label="Facebook"><img src="assets/facebook.svg" alt="Facebook"></a>
-                <a class="social-icon x" href="#" aria-label="X"><img src="assets/twitter.svg" alt="X"></a>
-                <a class="social-icon instagram" href="#" aria-label="Instagram"><img src="assets/instagram.svg" alt="Instagram"></a>
-        </div>
-    </div>
-   </footer>
-   <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

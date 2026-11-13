@@ -1,21 +1,41 @@
-# Smart Community — Local Workspace
+# Smart Community Platform
 
 ## Run locally
 
-1. Backend
+1. Copy `backend\.env.example` to `backend\.env` and set a unique random `JWT_SECRET` (at least 32 characters) plus a reachable `MONGODB_URI`.
+2. Start the API and static frontend:
 
 ```bash
 cd backend
 npm install
-cp .env.example .env
-# edit .env to set JWT_SECRET and MONGODB_URI if needed
 npm start
 ```
 
-2. Frontend
+Open http://localhost:5000 after the server reports a successful MongoDB connection. The first start adds missing default categories without replacing existing categories.
+The backend requires Node.js 20 or newer.
 
-Open http://localhost:5000 in your browser after starting the backend.
+## Marketplace roles
 
-## Notes
-- Move secrets to a secure store for production.
-- Consider using a process manager (pm2) or containerization for production deployment.
+- Customers search service listings, create service requests, track/cancel eligible requests, and review completed work.
+- Providers maintain a public profile and service listings, then accept/reject requests and progress accepted jobs through completion.
+- Request history is visible to the request participants; dashboard notifications are persisted and refresh while the dashboard is open.
+- Customers and their assigned providers can exchange persistent messages within a service request. Conversation reads and sends require an authenticated request participant.
+- Customers can save providers from service listings and manage their saved-provider list in the customer dashboard.
+- Individual service listings have a detail page with provider information, ratings, reviews, and a request form backed by the existing API.
+- Live location remains restricted to an authenticated provider and the provider's active accepted/in-progress service relationships.
+
+## Marketplace API additions
+
+- `GET /api/notifications/mine` lists the authenticated user's notifications and unread count.
+- `PATCH /api/notifications/:id/read` and `PATCH /api/notifications/mine/read-all` update notification read state.
+- `GET /api/messages/:requestId` loads a request conversation and marks incoming messages as read.
+- `POST /api/messages/:requestId` sends a message to the other request participant; message text is limited to 2,000 characters, and sends are rate-limited.
+- `GET /api/favorites` lists the authenticated customer's saved providers.
+- `POST /api/favorites/:providerId` saves a provider; `DELETE /api/favorites/:providerId` removes that customer's saved provider.
+- `GET /api/services/:id` provides the listing data used by the standalone `frontend/service-detail.html` page.
+
+## Deployment requirements
+
+The static frontend currently calls a same-origin `/api` (and `http://localhost:5000/api` locally). Hosting the frontend files alone does not run this backend; production needs an API route/proxy in the existing project or a configured API base URL before the frontend can reach a separately hosted Express server. CORS allowlisting alone does not change the frontend API URL. Configure `JWT_SECRET`, `MONGODB_URI`, and, for cross-origin hosting, `CORS_ORIGIN` in the existing hosting environment. SMTP variables are required only for the contact form. The API exposes `/api/health` and returns a non-success status until MongoDB is connected.
+
+Never commit `.env` files or production credentials. Deploy only after the backend health endpoint, authenticated role flows, database-backed marketplace requests, and the production build have all been verified.

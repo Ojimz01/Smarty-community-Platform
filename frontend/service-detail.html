@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Review a local service listing and send a request to its provider through Smart Community.">
+    <meta name="theme-color" content="#fdfcfc">
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+    <title>Service details | Smart Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="service-detail-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+        <div class="shell nav-shell">
+            <a class="brand" href="index.html" aria-label="Smart Community home">
+                <img src="assets/logo.svg" alt="" width="40" height="40">
+                <span>Smart Community</span>
+            </a>
+            <div class="detail-nav-actions">
+                <a class="detail-nav-link" href="dashboard.html">Dashboard</a>
+                <a class="button button-outline" href="services.html">Browse services</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="service-detail-main shell" id="main">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="services.html">Services</a>
+            <span aria-hidden="true">/</span>
+            <span id="detailBreadcrumb">Service details</span>
+        </nav>
+
+        <p id="serviceDetailStatus" class="service-detail-status" aria-live="polite">Loading service details...</p>
+        <div id="serviceDetailContent" class="service-detail-layout hidden">
+            <article class="service-detail-card">
+                <p class="eyebrow" id="detailCategory"></p>
+                <h1 id="detailName"></h1>
+                <p id="detailDescription" class="service-detail-description"></p>
+                <dl class="service-detail-facts">
+                    <div><dt>Provider</dt><dd id="detailProvider"></dd></div>
+                    <div><dt>Location</dt><dd id="detailLocation"></dd></div>
+                    <div><dt>Rating</dt><dd id="detailRating"></dd></div>
+                    <div><dt>Availability</dt><dd id="detailAvailability"></dd></div>
+                </dl>
+                <p class="service-detail-price" id="detailPrice"></p>
+                <section class="service-detail-reviews" aria-labelledby="detailReviewsHeading">
+                    <h2 id="detailReviewsHeading">Customer reviews</h2>
+                    <ul id="detailReviews"></ul>
+                </section>
+            </article>
+
+            <section class="service-booking-card" aria-labelledby="requestServiceHeading">
+                <p class="eyebrow">Next step</p>
+                <h2 id="requestServiceHeading">Request this service</h2>
+                <p>Share the work details and your preferred time. The provider will respond to your request.</p>
+                <form id="detailRequestForm">
+                    <label for="detailRequestLocation">Service location <span>(optional)</span></label>
+                    <input id="detailRequestLocation" name="location" type="text" maxlength="120" autocomplete="street-address" placeholder="Your service area">
+
+                    <div class="detail-request-grid">
+                        <div>
+                            <label for="detailRequestDate">Preferred date <span>(optional)</span></label>
+                            <input id="detailRequestDate" name="preferredDate" type="date">
+                        </div>
+                        <div>
+                            <label for="detailRequestTime">Preferred time <span>(optional)</span></label>
+                            <input id="detailRequestTime" name="preferredTime" type="time">
+                        </div>
+                    </div>
+
+                    <label for="detailRequestMessage">What do you need help with?</label>
+                    <textarea id="detailRequestMessage" name="message" rows="5" minlength="10" maxlength="2000" required placeholder="Describe the job (10–2,000 characters)"></textarea>
+                    <button class="button" id="detailRequestSubmit" type="submit" disabled>Send service request</button>
+                    <p id="detailRequestFeedback" class="form-message" aria-live="polite"></p>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="shell footer-inner">
+            <a href="index.html">Smart Community</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+    </footer>
+
+    <script src="service-detail.js"></script>
+</body>
+</html>

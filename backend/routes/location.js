@@ -34,7 +34,7 @@ router.post("/start", requireAuth, requireRole("provider"), async (req, res) => 
 
     const approvedRequest = await ServiceRequest.findOne({
       provider: req.user.id,
-      status: "accepted"
+      status: { $in: ["accepted", "in_progress"] }
     });
 
     if (!approvedRequest) {
@@ -85,7 +85,7 @@ router.post("/update", requireAuth, requireRole("provider"), async (req, res) =>
 
     const approvedRequest = await ServiceRequest.findOne({
       provider: req.user.id,
-      status: "accepted"
+      status: { $in: ["accepted", "in_progress"] }
     });
 
     if (!approvedRequest) {
@@ -150,7 +150,7 @@ router.post("/stop", requireAuth, requireRole("provider"), async (req, res) => {
 router.get("/provider/:id", requireAuth, async (req, res) => {
   try {
     const share = await LocationShare.findOne({ provider: req.params.id, sharingActive: true })
-      .populate("provider", "username email role");
+      .populate("provider", "username role");
 
     if (!share) {
       return res.status(404).json({ message: "Location not currently shared." });
@@ -164,7 +164,7 @@ router.get("/provider/:id", requireAuth, async (req, res) => {
       const approvedRequest = await ServiceRequest.findOne({
         provider: req.params.id,
         customer: req.user.id,
-        status: "accepted"
+        status: { $in: ["accepted", "in_progress"] }
       });
 
       if (!approvedRequest) {

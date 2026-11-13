@@ -27,6 +27,17 @@ const ServiceSchema = new mongoose.Schema({
         min: 0,
         default: 0
     },
+    currency: {
+        type: String,
+        uppercase: true,
+        match: /^[A-Z]{3}$/,
+        default: "USD"
+    },
+    priceUnit: {
+        type: String,
+        enum: ["fixed", "hour", "visit"],
+        default: "fixed"
+    },
     isActive: {
         type: Boolean,
         default: true
@@ -34,5 +45,7 @@ const ServiceSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+ServiceSchema.index({ category: 1, isActive: 1, createdAt: -1 });
 
 module.exports = mongoose.model("Service", ServiceSchema);

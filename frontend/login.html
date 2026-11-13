@@ -3,35 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <meta name="theme-color" content="#fdfcfc">
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+    <link rel="canonical" href="https://smarty-community-platform.vercel.app/login.html">
+    <meta name="description" content="Sign in to Smart Community to manage service requests, messages, and your saved providers.">
+    <title>Sign in — Smart Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="auth-page">
-    <div class="container">
-      <a class="home-link" href="index.html">←</a>
-      <img src="assets/logo.svg" alt="Smart Community Logo" width="70" height="70">
-      <div class="auth-heading">
-        <h2>Login</h2>
-        <p>Sign in to manage bookings, messages, and service requests.</p>
-      </div>
 
-      <form id="loginForm" novalidate>
-          <div class="form-group">
-              <label for="loginEmail">Email</label>
-              <input type="email" id="loginEmail" placeholder="Enter your email" required>
-              <span class="error-msg" id="email-error"></span>
-          </div>
-          <div class="form-group">
-              <label for="loginPassword">Password</label>
-              <input type="password" id="loginPassword" placeholder="Enter your password" required>
-              <span class="error-msg" id="password-error"></span>
-          </div>
-          <button type="submit" id="loginBtn">Login</button>
-          <div class="loading-spinner" id="loginSpinner" style="display: none;"></div>
-      </form>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-      <p class="auth-footer">New here? <a href="register.html">Create an account</a></p>
-    </div>
+    <aside class="auth-brand">
+        <a class="brand" href="index.html" aria-label="Smart Community home">
+            <img src="assets/logo.svg" alt="" width="38" height="38">
+            <span class="brand-name">Smart Community</span>
+        </a>
+
+        <div class="auth-brand-copy">
+            <h1>Good help, one sign-in away.</h1>
+            <p>Pick up where you left off: your requests, conversations, and saved providers are all waiting in your dashboard.</p>
+            <ul class="auth-brand-list">
+                <li>Track every request from sent to complete.</li>
+                <li>Message your provider without leaving the job.</li>
+                <li>Keep the local providers you trust close at hand.</li>
+            </ul>
+        </div>
+
+        <p class="auth-brand-foot">Local services, handled with care.</p>
+    </aside>
+
+    <main class="auth-main" id="main">
+        <div class="auth-card">
+            <a class="auth-back" href="index.html"><span aria-hidden="true">←</span> Back to home</a>
+
+            <div class="auth-heading">
+                <h2>Sign in</h2>
+                <p>Welcome back. Enter your details to continue.</p>
+            </div>
+
+            <form id="loginForm" class="auth-form" novalidate>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" required>
+                    <span class="error-msg" id="email-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" required>
+                    <span class="error-msg" id="password-error"></span>
+                </div>
+                <button type="submit" id="loginBtn" class="button">Sign in</button>
+                <div class="loading-spinner" id="loginSpinner" style="display: none;"></div>
+            </form>
+
+            <p class="auth-footer">New here? <a href="register.html">Create an account</a></p>
+        </div>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>

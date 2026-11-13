@@ -3,94 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Service Providers - Smart Community</title>
+  <meta name="description" content="Browse local service listings on Smart Community. Compare providers, check prices, and send a service request in minutes.">
+  <meta name="theme-color" content="#fdfcfc">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://smarty-community-platform.vercel.app/services.html">
+  <meta property="og:title" content="Service providers — Smart Community">
+  <meta property="og:description" content="Compare local service listings, check prices, and send a service request in minutes.">
+  <meta property="og:type" content="website">
+  <title>Service providers — Smart Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="homepage services-page">
-  <header>
-    <div class="logo">
-      <img loading="lazy" src="assets/logo.svg" alt="Smart Community Logo" width="50" height="50">
-      <h1>Smart Community</h1>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="Smart Community home">
+        <img src="assets/logo.svg" alt="" width="36" height="36">
+        <span class="brand-name">Smart Community</span>
+      </a>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+        <a href="index.html#services">Services</a>
+        <a href="index.html#how-it-works">How it works</a>
+        <a href="index.html#providers">For providers</a>
+        <a href="index.html#contact">Contact</a>
+        <div class="header-actions">
+          <a class="button ghost" href="login.html">Sign in</a>
+          <a class="button" href="register.html">Create account</a>
+        </div>
+      </nav>
     </div>
-    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <nav id="mainNav" class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="index.html#services">Services</a>
-      <a href="index.html#about">About</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="login.html" class="auth-link">Login</a>
-    </nav>
   </header>
 
-  <main class="service-results-page">
-    <section class="service-results-hero">
-      <span class="service-kicker">Marketplace</span>
-      <h1 id="serviceTitle">Plumbing service providers</h1>
-      <p id="serviceSummary">Browse trusted plumbing professionals nearby and request a quote in minutes.</p>
-      <div class="service-result-meta">
-        <strong id="providerCount">0 providers available</strong>
-        <a class="button ghost" href="index.html">Back to home</a>
-      </div>
-      <div id="serviceCategoryTabs" class="service-category-tabs"></div>
-    </section>
-
-    <section class="live-status-panel" aria-live="polite">
-      <div class="live-status-header">
-        <span class="live-status-kicker">Live provider status</span>
-      </div>
-      <p>Provider location is shared only when an active service trip is underway and access is authorized. Until then, this section shows only honest status information.</p>
-      <div class="live-status-state">Location not currently shared</div>
-    </section>
-
-    <section class="map-placeholder" aria-label="Provider location status placeholder">
-      <div class="map-grid"></div>
-      <div class="map-marker">
-        <span></span>
-      </div>
-      <div class="map-copy">
-        <strong>Live map waiting for active service access</strong>
-        <p>No provider location is currently available to display.</p>
-      </div>
-    </section>
-
-    <section class="provider-grid" id="providerGrid" aria-live="polite"></section>
-
-    <section class="request-panel" aria-labelledby="requestPanelTitle">
-      <div class="request-panel-header">
-        <h2 id="requestPanelTitle">Request a service</h2>
-      </div>
-      <form id="serviceRequestForm" class="request-form">
-        <div class="request-grid">
-          <div class="form-group">
-            <label for="serviceRequestCategory">Service category</label>
-            <input id="serviceRequestCategory" name="category" type="text" placeholder="Plumbing" required>
-          </div>
-          <div class="form-group">
-            <label for="serviceRequestName">Service needed</label>
-            <input id="serviceRequestName" name="serviceName" type="text" placeholder="Bathroom leak repair" required>
-          </div>
-          <div class="form-group">
-            <label for="serviceRequestDate">Preferred date</label>
-            <input id="serviceRequestDate" name="preferredDate" type="date">
-          </div>
-          <div class="form-group">
-            <label for="serviceRequestTime">Preferred time</label>
-            <input id="serviceRequestTime" name="preferredTime" type="time">
+  <main id="main">
+    <section class="page-hero">
+      <div class="shell">
+        <p class="eyebrow">Marketplace</p>
+        <h1 id="serviceTitle">Available local services</h1>
+        <p id="serviceSummary">Compare available service listings from local providers and request the work you need.</p>
+        <div class="page-hero-meta">
+          <strong id="providerCount">Loading listings…</strong>
+          <div class="page-hero-actions">
+            <a class="button ghost" href="index.html">Back to home</a>
+            <a class="button ghost" href="dashboard.html">Your dashboard</a>
           </div>
         </div>
-        <div class="form-group">
-          <label for="serviceRequestMessage">Project details</label>
-          <textarea id="serviceRequestMessage" name="message" rows="4" placeholder="Tell us what you need help with..." required></textarea>
-        </div>
-        <input type="hidden" id="serviceRequestProviderName" name="providerName" value="">
-        <button type="submit" class="button">Submit request</button>
-        <p id="requestStatusMessage" class="request-status-message" aria-live="polite"></p>
-      </form>
+        <p id="serviceFavoriteFeedback" class="form-message" aria-live="polite"></p>
+      </div>
     </section>
+
+    <div class="shell marketplace-layout">
+      <section class="marketplace-main" aria-labelledby="listingHeading">
+        <div id="serviceCategoryTabs" class="category-tabs" aria-label="Service categories"></div>
+
+        <form id="serviceFilters" class="filters" role="search">
+          <label>
+            <span>Service or provider</span>
+            <input id="serviceSearchInput" name="q" type="search" placeholder="e.g. home cleaning">
+          </label>
+          <label>
+            <span>Location</span>
+            <input id="serviceLocationInput" name="location" type="search" placeholder="City or neighborhood">
+          </label>
+          <button type="submit" class="button">Find services</button>
+        </form>
+
+        <div class="listing-head">
+          <h2 id="listingHeading">Service listings</h2>
+          <p>Providers update their own availability and prices.</p>
+        </div>
+
+        <section class="provider-grid" id="providerGrid" aria-live="polite" aria-busy="true">
+          <div class="provider-card no-results">
+            <p>Loading available service listings…</p>
+          </div>
+        </section>
+      </section>
+
+      <aside class="request-panel" aria-labelledby="requestPanelTitle">
+        <div class="request-panel-header">
+          <p class="eyebrow">Request</p>
+          <h2 id="requestPanelTitle">Tell us what you need.</h2>
+          <p>Pick a listing, then add the details. Your request goes straight to the provider's dashboard.</p>
+        </div>
+
+        <form id="serviceRequestForm" class="request-form">
+          <div class="request-grid">
+            <div class="form-group">
+              <label for="serviceRequestCategory">Service category</label>
+              <input id="serviceRequestCategory" type="text" placeholder="Select a service listing" readonly required>
+            </div>
+            <div class="form-group">
+              <label for="serviceRequestName">Service needed</label>
+              <input id="serviceRequestName" type="text" placeholder="Choose a service above" readonly required>
+            </div>
+            <div class="form-group">
+              <label for="serviceRequestLocation">Service location</label>
+              <input id="serviceRequestLocation" name="location" type="text" maxlength="120" placeholder="Your address or area" autocomplete="street-address">
+            </div>
+            <div class="form-group">
+              <label for="serviceRequestDate">Preferred date</label>
+              <input id="serviceRequestDate" name="preferredDate" type="date">
+            </div>
+            <div class="form-group">
+              <label for="serviceRequestTime">Preferred time</label>
+              <input id="serviceRequestTime" name="preferredTime" type="time">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="serviceRequestMessage">Project details</label>
+            <textarea id="serviceRequestMessage" name="message" rows="4" placeholder="What needs doing? Include anything the provider should know before they arrive." required></textarea>
+          </div>
+          <input type="hidden" id="serviceRequestProviderName" value="">
+          <input type="hidden" id="serviceRequestServiceId" name="serviceId" value="">
+          <button type="submit" class="button">Submit request</button>
+          <p id="requestStatusMessage" class="request-status-message" aria-live="polite"></p>
+        </form>
+      </aside>
+    </div>
 
     <div id="providerProfileModal" class="provider-profile-modal hidden" aria-hidden="true">
       <div class="provider-profile-card" role="dialog" aria-modal="true" aria-labelledby="providerProfileName">
@@ -100,35 +139,59 @@
             <span class="provider-tag" id="profileCategory">Category</span>
             <h3 id="providerProfileName">Provider name</h3>
           </div>
-          <span class="provider-rating" id="profileRating">★ 4.9</span>
+          <span class="provider-rating" id="profileRating">New provider</span>
         </div>
         <div class="provider-profile-meta">
           <span id="profileLocation">Location</span>
-          <span id="profileAvailability">Available</span>
+          <span id="profileAvailability">Availability</span>
         </div>
         <p id="profileDescription">Provider description.</p>
+        <p id="profileContact"></p>
+        <div id="profileServices" class="profile-detail-list"></div>
+        <div id="profileReviews" class="profile-detail-list"></div>
         <div class="provider-profile-footer">
-          <button type="button" class="button profile-request-button" id="profileRequestButton">Request Service</button>
+          <button type="button" class="button profile-request-button" id="profileRequestButton">Request service</button>
         </div>
       </div>
     </div>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <img src="assets/logo.svg" alt="Smart Community Logo" width="40" height="40">
-        <p>&copy; 2026 Smart Community. All rights reserved.</p>
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img src="assets/logo.svg" alt="" width="34" height="34">
+            <span class="brand-name">Smart Community</span>
+          </a>
+          <p>Local services, handled with care. Browse real listings from providers in your community.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Marketplace</h4>
+          <a href="services.html">Browse services</a>
+          <a href="search.html?q=cleaning">Search</a>
+          <a href="index.html#how-it-works">How it works</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Account</h4>
+          <a href="login.html">Sign in</a>
+          <a href="register.html">Create account</a>
+          <a href="dashboard.html">Dashboard</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="index.html#contact">Contact us</a>
+          <a href="index.html#providers">For providers</a>
+          <a href="index.html#services">All categories</a>
+        </div>
       </div>
-      <nav>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="index.html#contact">Contact Us</a>
-      </nav>
-      <div class="social-media">
-        <a class="social-icon facebook" href="#" aria-label="Facebook"><img src="assets/facebook.svg" alt="Facebook"></a>
-        <a class="social-icon x" href="#" aria-label="X"><img src="assets/twitter.svg" alt="X"></a>
-        <a class="social-icon instagram" href="#" aria-label="Instagram"><img src="assets/instagram.svg" alt="Instagram"></a>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Smart Community. All rights reserved.</p>
+        <p>Made for local neighborhoods.</p>
       </div>
     </div>
   </footer>

@@ -3,40 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fdfcfc">
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+    <link rel="canonical" href="https://smarty-community-platform.vercel.app/register.html">
+    <meta name="description" content="Create a Smart Community account to request local services or publish your own service listings.">
+    <title>Create account — Smart Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Register</title>
 </head>
 <body class="auth-page">
-    <div class="container">
-      <a class="home-link" href="index.html">←</a>
-      <img src="assets/logo.svg" alt="Smart Community Logo" width="70" height="70">
-      <div class="auth-heading">
-        <h2>Create Account</h2>
-        <p>Join Smart Community and connect with local service experts instantly.</p>
-      </div>
 
-      <form id="registerForm" novalidate>
-          <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" placeholder="Enter username" required minlength="3">
-              <span class="error-msg" id="username-error"></span>
-          </div>
-          <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" placeholder="Enter your email" required>
-              <span class="error-msg" id="email-error"></span>
-          </div>
-          <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" id="password" placeholder="At least 6 characters" required minlength="6">
-              <span class="error-msg" id="password-error"></span>
-          </div>
-          <button type="submit" id="registerBtn">Register</button>
-          <div class="loading-spinner" id="registerSpinner" style="display: none;"></div>
-      </form>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-      <p class="auth-footer">Already have an account? <a href="login.html">Login</a></p>
-    </div>
+    <aside class="auth-brand">
+        <a class="brand" href="index.html" aria-label="Smart Community home">
+            <img src="assets/logo.svg" alt="" width="38" height="38">
+            <span class="brand-name">Smart Community</span>
+        </a>
+
+        <div class="auth-brand-copy">
+            <h1>Join the neighborhood.</h1>
+            <p>Whether you need a hand or offer one, Smart Community keeps the whole exchange simple and in one place.</p>
+            <ul class="auth-brand-list">
+                <li>Customers send clear requests and track the work.</li>
+                <li>Providers publish listings and accept the jobs they want.</li>
+                <li>Both sides keep every update in one conversation.</li>
+            </ul>
+        </div>
+
+        <p class="auth-brand-foot">Local services, handled with care.</p>
+    </aside>
+
+    <main class="auth-main" id="main">
+        <div class="auth-card">
+            <a class="auth-back" href="index.html"><span aria-hidden="true">←</span> Back to home</a>
+
+            <div class="auth-heading">
+                <h2>Create account</h2>
+                <p>Set up your profile in under a minute.</p>
+            </div>
+
+            <form id="registerForm" class="auth-form" novalidate>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="At least 3 characters" autocomplete="username" required minlength="3">
+                    <span class="error-msg" id="username-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+                    <span class="error-msg" id="email-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="At least 6 characters" autocomplete="new-password" required minlength="6">
+                    <span class="error-msg" id="password-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="accountRole">I want to</label>
+                    <select id="accountRole" name="role" required>
+                        <option value="customer">Find and request local services</option>
+                        <option value="provider">Offer my professional services</option>
+                    </select>
+                </div>
+                <button type="submit" id="registerBtn" class="button">Create account</button>
+                <div class="loading-spinner" id="registerSpinner" style="display: none;"></div>
+            </form>
+
+            <p class="auth-footer">Already have an account? <a href="login.html">Sign in</a></p>
+        </div>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>

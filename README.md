@@ -36,6 +36,20 @@ The backend requires Node.js 20 or newer.
 
 ## Deployment requirements
 
-The static frontend currently calls a same-origin `/api` (and `http://localhost:5000/api` locally). Hosting the frontend files alone does not run this backend; production needs an API route/proxy in the existing project or a configured API base URL before the frontend can reach a separately hosted Express server. CORS allowlisting alone does not change the frontend API URL. Configure `JWT_SECRET`, `MONGODB_URI`, and, for cross-origin hosting, `CORS_ORIGIN` in the existing hosting environment. SMTP variables are required only for the contact form. The API exposes `/api/health` and returns a non-success status until MongoDB is connected.
+The static frontend calls a same-origin `/api` (and `http://localhost:5000/api` locally). The Express API now ships as one Vercel serverless function (`api/index.js`) so the existing production domain can serve both the site and the API.
+
+### Vercel project settings
+
+1. Set **Root Directory** to the repository root (not `frontend/`).
+2. Framework preset: **Other**. Leave the build command empty; `vercel.json` sets the output directory to `frontend`.
+3. Add environment variables in **Project → Settings → Environment Variables** for Production (and Preview if used):
+   - `MONGODB_URI` — MongoDB Atlas connection string.
+   - `JWT_SECRET` — random value of at least 32 characters.
+   - `CORS_ORIGIN` — optional; only needed for cross-origin clients. Same-origin requests work without it.
+4. Redeploy. `/api/health` returns `200 {"status":"ok"}` once MongoDB is connected and `503` until the database is reachable.
+
+The quickest database setup is the **MongoDB Atlas** integration in the Vercel Marketplace, which provisions a free cluster and adds `MONGODB_URI` automatically. A manually created Atlas cluster works too: create a database user, allow Vercel's outbound IPs (or `0.0.0.0/0` for a first test), and copy the connection string.
+
+SMTP variables are required only for the contact form. The API exposes `/api/health` and returns a non-success status until MongoDB is connected.
 
 Never commit `.env` files or production credentials. Deploy only after the backend health endpoint, authenticated role flows, database-backed marketplace requests, and the production build have all been verified.

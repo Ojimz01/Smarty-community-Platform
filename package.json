@@ -1,0 +1,25 @@
+{
+  "name": "smart-community-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smart Community platform. The Express API runs as a Vercel serverless function; the static site lives in frontend/.",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test backend/test",
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^16.0.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.6.1",
+    "nodemailer": "^10.5.0",
+    "xss": "^1.0.14"
+  }
+}

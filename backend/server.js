@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const path = require("path");
-const ServiceCategory = require("./models/ServiceCategory");
+const { connectDatabase } = require("./lib/database");
 require("dotenv").config();
 
 const app = express();
@@ -12,26 +12,11 @@ const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/smart-community";
 const frontendPath = path.resolve(__dirname, "../frontend");
 
-const seedServiceCategories = async () => {
-  const defaults = [
-    { name: "Plumbing", description: "Fix leaks and pipe issues with local professionals." },
-    { name: "Electrical", description: "Wiring, repairs, and installations." },
-    { name: "Cleaning", description: "Home, office, and deep-cleaning services." },
-    { name: "Car repairs", description: "Automotive repair and maintenance." },
-    { name: "Painting", description: "Interior and exterior painting services." },
-    { name: "Carpentry", description: "Custom woodwork, repairs, and fittings." },
-    { name: "Catering", description: "Food preparation and catering for events." },
-    { name: "Fashion and tailoring", description: "Garment design, alterations, and tailoring." },
-    { name: "Hairdressing", description: "Hair styling and care services." },
-    { name: "Computer repairs", description: "Computer diagnostics, repair, and setup." },
-    { name: "Landscaping", description: "Garden design, maintenance, and outdoor upgrades." },
-    { name: "Other useful services", description: "Other services offered by local professionals." }
-  ];
-
-  await Promise.all(defaults.map(({ name, description }) =>
-    ServiceCategory.updateOne({ name }, { $setOnInsert: { name, description, isActive: true } }, { upsert: true })
-  ));
-};
+if (process.env.VERCEL) {
+  // Vercel terminates TLS in front of the function, so rate limiting needs the
+  // forwarded client address rather than the proxy socket address.
+  app.set("trust proxy", 1);
+}
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -82,9 +67,8 @@ async function startServer() {
   if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
     throw new Error("JWT_SECRET must be configured with at least 32 characters.");
   }
-  await mongoose.connect(MONGODB_URI);
+  await connectDatabase(MONGODB_URI);
   console.log("Connected to MongoDB");
-  await seedServiceCategories();
   return app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 }
 

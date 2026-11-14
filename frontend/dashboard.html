@@ -85,6 +85,19 @@
                     <p id="accountProfileMessage" aria-live="polite"></p>
                 </form>
 
+                <details class="dashboard-security">
+                    <summary>Change password</summary>
+                    <form id="passwordForm" class="dashboard-form" autocomplete="off">
+                        <label>Current password<input id="currentPassword" name="currentPassword" type="password" autocomplete="current-password" required></label>
+                        <div class="dashboard-form-row">
+                            <label>New password<input id="newPassword" name="newPassword" type="password" minlength="6" maxlength="128" autocomplete="new-password" required></label>
+                            <label>Confirm new password<input id="confirmPassword" name="confirmPassword" type="password" minlength="6" maxlength="128" autocomplete="new-password" required></label>
+                        </div>
+                        <button class="button" type="submit">Update password</button>
+                        <p id="passwordMessage" aria-live="polite"></p>
+                    </form>
+                </details>
+
                 <div id="providerWorkspace" class="hidden">
                     <h3>Provider profile</h3>
                     <form id="providerProfileForm" class="dashboard-form">
@@ -158,6 +171,7 @@
                         <p class="eyebrow">Requests</p>
                         <h3>Service activity</h3>
                     </div>
+                    <button type="button" class="mini-button" id="refreshRequests">Refresh</button>
                 </div>
                 <ul id="requestList" class="request-list"></ul>
                 <p id="requestFeedback" aria-live="polite"></p>

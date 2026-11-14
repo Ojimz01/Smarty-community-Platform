@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fdfcfc">
+  <meta name="description" content="Try the Smart Community demo. Send a sample request as a customer, then accept and complete it as a provider — no account needed.">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://smarty-community-platform.vercel.app/demo.html">
+  <meta property="og:title" content="Smart Community demo — Try the request flow">
+  <meta property="og:description" content="Switch between customer and provider views, send a sample request, and move it from pending to complete.">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index,follow">
+  <title>Interactive demo — Smart Community</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="homepage demo-page">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="Smart Community home">
+        <img src="assets/logo.svg" alt="" width="36" height="36">
+        <span class="brand-name">Smart Community</span>
+      </a>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#how-it-works">How it works</a>
+        <a href="demo.html" aria-current="page">Demo</a>
+        <div class="header-actions">
+          <a class="button ghost" href="login.html">Sign in</a>
+          <a class="button" href="register.html">Create account</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="shell demo-hero" aria-labelledby="demoHeading">
+      <div>
+        <p class="eyebrow">Interactive demo</p>
+        <h1 id="demoHeading">See how a job moves.</h1>
+        <p class="demo-lede">Send a sample request as a customer, then switch sides to accept, start, and complete it as a provider. Everything below runs on sample data in your browser.</p>
+
+        <div class="demo-mode-switch" role="tablist" aria-label="Choose a demo view">
+          <button type="button" role="tab" id="tabCustomer" aria-controls="customerDemo" aria-selected="true" data-demo-role="customer">Customer view</button>
+          <button type="button" role="tab" id="tabProvider" aria-controls="providerDemo" aria-selected="false" data-demo-role="provider">Provider view</button>
+        </div>
+        <p class="demo-note">Demo mode — sample data only. Nothing is sent, booked, or saved to an account.</p>
+      </div>
+
+      <aside class="demo-callout" aria-label="About this demo">
+        <span class="demo-badge">Demo mode</span>
+        <h2>Try both sides of a request</h2>
+        <ul>
+          <li>Browse sample listings and save a provider.</li>
+          <li>Send a request with your preferred date and details.</li>
+          <li>Switch to the provider view to accept, start, and complete the job.</li>
+          <li>Leave a review and swap messages along the way.</li>
+        </ul>
+        <button type="button" class="button ghost" id="resetDemo">Reset demo data</button>
+      </aside>
+    </section>
+
+    <section class="shell demo-stats" aria-label="Demo summary">
+      <div class="demo-stat">
+        <strong id="demoStatOpen">0</strong>
+        <span id="demoStatOpenLabel">Open requests</span>
+      </div>
+      <div class="demo-stat">
+        <strong id="demoStatActive">0</strong>
+        <span id="demoStatActiveLabel">Saved providers</span>
+      </div>
+      <div class="demo-stat">
+        <strong id="demoStatDone">0</strong>
+        <span>Completed</span>
+      </div>
+    </section>
+
+    <section class="shell demo-panel" id="customerDemo" role="tabpanel" aria-labelledby="tabCustomer">
+      <div class="demo-columns">
+        <div>
+          <div class="demo-section-head">
+            <div>
+              <p class="eyebrow">Customer view</p>
+              <h2>Browse sample listings</h2>
+            </div>
+            <p>Save a provider or start a request. These listings are sample data, not real businesses.</p>
+          </div>
+          <div id="demoListings" class="demo-listings"></div>
+        </div>
+
+        <div class="demo-side">
+          <div class="card demo-request-card">
+            <h2>Send a demo request</h2>
+            <form id="demoRequestForm" class="demo-form">
+              <label>Service
+                <select id="demoService" name="service" required></select>
+              </label>
+              <div class="demo-form-row">
+                <label>Preferred date
+                  <input id="demoDate" name="date" type="date" required>
+                </label>
+                <label>Preferred time
+                  <select id="demoTime" name="time">
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="16:00">16:00</option>
+                  </select>
+                </label>
+              </div>
+              <label>Job details
+                <textarea id="demoNotes" name="notes" rows="3" minlength="10" maxlength="400" required placeholder="Describe what needs doing, and anything the provider should know."></textarea>
+              </label>
+              <button type="submit" class="button">Send demo request</button>
+              <p id="demoFormMessage" class="demo-feedback" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <div class="card demo-activity-card">
+            <div class="demo-section-head compact">
+              <h2>Your requests</h2>
+              <span id="demoRequestCount" class="demo-count"></span>
+            </div>
+            <ul id="demoCustomerRequests" class="demo-request-list" aria-live="polite"></ul>
+          </div>
+
+          <div class="card demo-favorites-card">
+            <div class="demo-section-head compact">
+              <h2>Saved providers</h2>
+            </div>
+            <ul id="demoFavorites" class="demo-favorites" aria-live="polite"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell demo-panel hidden" id="providerDemo" role="tabpanel" aria-labelledby="tabProvider" hidden>
+      <div class="demo-columns">
+        <div>
+          <div class="card demo-activity-card">
+            <div class="demo-section-head compact">
+              <h2>Incoming requests</h2>
+              <span id="demoProviderRequestCount" class="demo-count"></span>
+            </div>
+            <p class="demo-role-note">You are viewing the dashboard as <strong>Amara Okafor</strong>, a plumbing provider.</p>
+            <ul id="demoProviderRequests" class="demo-request-list" aria-live="polite"></ul>
+          </div>
+
+          <div class="card demo-availability-card">
+            <div class="demo-availability">
+              <div>
+                <h2>Availability</h2>
+                <p id="demoAvailabilityNote">Customers can send you new requests.</p>
+              </div>
+              <span class="status-pill status-accepted" id="demoAvailabilityBadge">Accepting</span>
+            </div>
+            <button type="button" class="button ghost" id="demoAvailabilityBtn">Pause new requests</button>
+          </div>
+        </div>
+
+        <div class="demo-side">
+          <div class="card demo-listings-card">
+            <div class="demo-section-head compact">
+              <h2>Your listings</h2>
+            </div>
+            <ul id="demoProviderListings" class="demo-provider-listings" aria-live="polite"></ul>
+          </div>
+
+          <div class="card demo-reviews-card">
+            <div class="demo-section-head compact">
+              <h2>Customer reviews</h2>
+            </div>
+            <ul id="demoReviews" class="demo-reviews" aria-live="polite"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell demo-cta" aria-labelledby="demoCtaHeading">
+      <div>
+        <h2 id="demoCtaHeading">Ready to do it for real?</h2>
+        <p>Create a free account to publish a listing or send a request to a real local provider.</p>
+      </div>
+      <div class="demo-cta-actions">
+        <a class="button light" href="register.html">Create an account</a>
+        <a class="button ghost demo-cta-secondary" href="services.html">Browse live listings</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img src="assets/logo.svg" alt="" width="34" height="34">
+            <span class="brand-name">Smart Community</span>
+          </a>
+          <p>Local services, handled with care. Built for neighbors who would rather help each other than go through a call center.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="index.html">Home</a>
+          <a href="services.html">Browse services</a>
+          <a href="demo.html">Interactive demo</a>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <a href="login.html">Sign in</a>
+          <a href="register.html">Create account</a>
+          <a href="dashboard.html">Dashboard</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="index.html#contact">Contact us</a>
+          <a href="index.html#how-it-works">How it works</a>
+          <a href="index.html#providers">For providers</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Smart Community. All rights reserved.</p>
+        <p>Made for local neighborhoods.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="demo-toast" id="demoToast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+  <script src="demo.js"></script>
+</body>
+</html>

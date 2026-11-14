@@ -1208,6 +1208,54 @@ document.getElementById("accountProfileForm")?.addEventListener("submit", async 
     }
 });
 
+document.getElementById("passwordForm")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const message = document.getElementById("passwordMessage");
+    const currentPassword = document.getElementById("currentPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const setMessage = (text, tone = "") => {
+        if (!message) return;
+        message.textContent = text;
+        message.classList.toggle("success", tone === "success");
+        message.classList.toggle("error", tone === "error");
+    };
+
+    if (newPassword !== confirmPassword) {
+        setMessage("The new passwords do not match.", "error");
+        return;
+    }
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+    try {
+        const data = await dashboardApi("/auth/password", {
+            method: "PATCH",
+            body: JSON.stringify({ currentPassword, newPassword })
+        });
+        form.reset();
+        setMessage(data.message || "Password updated.", "success");
+    } catch (error) {
+        setMessage(friendlyApiError(error, "Unable to update your password."), "error");
+    } finally {
+        if (submitButton) submitButton.disabled = false;
+    }
+});
+
+document.getElementById("refreshRequests")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    const label = button.textContent;
+    button.textContent = "Refreshing...";
+    try {
+        await loadRequestQueue();
+    } finally {
+        button.disabled = false;
+        button.textContent = label;
+    }
+});
+
 document.getElementById("providerProfileForm")?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const message = document.getElementById("providerProfileMessage");

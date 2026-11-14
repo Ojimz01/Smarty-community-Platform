@@ -5,6 +5,7 @@ const xss = require("xss");
 const router = express.Router();
 const User = require("../models/User");
 const { requireAuth } = require("../middleware/auth");
+const { validatePasswordChange } = require("../lib/passwordChange");
 require("dotenv").config();
 
 router.post("/register", async (req, res) => {
@@ -146,6 +147,33 @@ router.patch("/me", requireAuth, async (req, res) => {
         return res.json({ message: "Account details updated.", user });
     } catch (error) {
         return res.status(500).json({ message: "Unable to update your account right now." });
+    }
+});
+
+router.patch("/password", requireAuth, async (req, res) => {
+    const currentPassword = typeof req.body?.currentPassword === "string" ? req.body.currentPassword : "";
+    const newPassword = typeof req.body?.newPassword === "string" ? req.body.newPassword : "";
+
+    const validation = validatePasswordChange({ currentPassword, newPassword });
+    if (validation.error) {
+        return res.status(400).json({ message: validation.error });
+    }
+
+    try {
+        const user = await User.findById(req.user.id).select("+password");
+        if (!user) return res.status(404).json({ message: "Account not found." });
+
+        const matches = await bcrypt.compare(currentPassword, user.password || "");
+        if (!matches) {
+            return res.status(400).json({ message: "Your current password is incorrect." });
+        }
+
+        user.password = await bcrypt.hash(newPassword, 12);
+        await user.save();
+
+        return res.json({ message: "Password updated. Use your new password the next time you sign in." });
+    } catch (error) {
+        return res.status(500).json({ message: "Unable to update your password right now." });
     }
 });
 

@@ -11,8 +11,8 @@
   --surface-deep: #ece8e3;
   --ink: #0d0c0a;
   --graphite: #44403b;
-  --smoke: #777169;
-  --ash: #a59f97;
+  --smoke: #67615a;
+  --ash: #767068;
   --line: #e7e2db;
   --line-strong: #d8d2ca;
   --ember: #ff4704;
@@ -935,7 +935,7 @@ header nav a:hover {
 .step-index {
   display: block;
   margin-bottom: 2.5rem;
-  color: var(--ash);
+  color: var(--smoke);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.04em;

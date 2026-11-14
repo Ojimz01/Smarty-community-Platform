@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Smart Community theme system
+   Light is the warm editorial default. Dark is the same system with deeper
+   surfaces, brighter accents, and inverted panels kept deliberately dark.
+   Loaded after style.css on every page.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Toggle
+   -------------------------------------------------------------------------- */
+
+.theme-toggle {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.15s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--ink);
+  background: var(--surface);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+.theme-toggle-icon {
+  display: grid;
+  place-items: center;
+}
+
+.theme-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.theme-icon-sun {
+  display: block;
+}
+
+.theme-icon-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-icon-sun {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-icon-moon {
+  display: block;
+}
+
+/* Header placement: stay visible beside the menu button on small screens. */
+.site-header .header-inner > .theme-toggle {
+  order: 1;
+  margin-left: -0.55rem;
+}
+
+.auth-brand .theme-toggle {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 2;
+  border-color: rgba(253, 252, 252, 0.28);
+  background: rgba(253, 252, 252, 0.08);
+  color: #fdfcfc;
+}
+
+.auth-brand .theme-toggle:hover {
+  border-color: rgba(253, 252, 252, 0.55);
+  background: rgba(253, 252, 252, 0.16);
+}
+
+.theme-toggle-floating {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 250;
+  box-shadow: 0 10px 30px rgba(13, 12, 10, 0.14);
+}
+
+@media (max-width: 900px) {
+  .site-header .header-inner > .theme-toggle {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .auth-brand .theme-toggle {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Dark palette
+   -------------------------------------------------------------------------- */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #17181b;
+  --surface: #111214;
+  --surface-deep: #24262a;
+  --ink: #f5f2ec;
+  --graphite: #d3cdc4;
+  --smoke: #a9a39a;
+  --ash: #918b83;
+  --line: #2c2e34;
+  --line-strong: #3e4148;
+  --ember: #ff7040;
+  --violet: #8ea8ff;
+  --success: #8fd0ac;
+  --danger: #ff9384;
+  --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .site-header,
+html[data-theme="dark"] header {
+  background: rgba(17, 18, 20, 0.88);
+}
+
+html[data-theme="dark"] .dashboard-header {
+  background: rgba(17, 18, 20, 0.92);
+}
+
+/* Solid buttons invert cleanly; their old dark hover needs a light hover. */
+html[data-theme="dark"] .button:not(.ghost):not(.light):hover,
+html[data-theme="dark"] .btn:not(.btn-outline):hover,
+html[data-theme="dark"] .search-container button:hover,
+html[data-theme="dark"] .provider-button.primary:hover,
+html[data-theme="dark"] .mini-button.accept:hover {
+  border-color: #e7e2d9;
+  background: #e7e2d9;
+  color: #14151a;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  border-color: var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus {
+  border-color: var(--violet);
+}
+
+html[data-theme="dark"] option {
+  background: #17181b;
+  color: #f5f2ec;
+}
+
+html[data-theme="dark"] .avatar {
+  color: #10131c;
+}
+
+html[data-theme="dark"] .notification-count {
+  background: var(--ember);
+  color: #1a120c;
+}
+
+/* Status colours need deeper tints and lighter text on dark surfaces. */
+html[data-theme="dark"] .status-pending {
+  background: rgba(212, 178, 74, 0.16);
+  color: #e8c97a;
+}
+
+html[data-theme="dark"] .status-accepted,
+html[data-theme="dark"] .status-badge.active {
+  background: rgba(143, 208, 172, 0.16);
+  border-color: rgba(143, 208, 172, 0.35);
+  color: var(--success);
+}
+
+html[data-theme="dark"] .status-in_progress {
+  background: rgba(142, 168, 255, 0.16);
+  color: #b3c3ff;
+}
+
+html[data-theme="dark"] .status-completed {
+  background: var(--surface-deep);
+  color: var(--graphite);
+}
+
+html[data-theme="dark"] .status-rejected,
+html[data-theme="dark"] .status-cancelled {
+  background: rgba(255, 147, 132, 0.14);
+  color: #ffab9d;
+}
+
+html[data-theme="dark"] .mini-button.reject {
+  border-color: rgba(255, 147, 132, 0.32);
+}
+
+html[data-theme="dark"] .mini-button.reject:hover {
+  border-color: rgba(255, 147, 132, 0.55);
+  background: rgba(255, 147, 132, 0.12);
+}
+
+/* Category illustrations are drawn in ink; give them the same paper chip. */
+html[data-theme="dark"] .category-icon,
+html[data-theme="dark"] .category-card:hover .category-icon {
+  border-color: #f2eee6;
+  background: #f2eee6;
+}
+
+/* Panels that are intentionally dark in both themes. */
+html[data-theme="dark"] .auth-brand {
+  background: linear-gradient(165deg, #1d1f24 0%, #121316 100%);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .audience-card.dark {
+  border-color: var(--line-strong);
+  background: #1d1f24;
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .preview-float {
+  border-color: var(--line-strong);
+  background: #1d1f24;
+  color: var(--ink);
+}
+
+/* These panels stay near-black in both themes, so their copy must stay light
+   regardless of the active palette. */
+.auth-brand .brand,
+.auth-brand-copy h1 {
+  color: #fdfcfc;
+}
+
+.auth-brand-copy p,
+.auth-brand-foot,
+.preview-float span:not(.float-dot),
+.audience-card.dark > div > p {
+  color: #b7b1a8;
+}
+
+.auth-brand-list li,
+.audience-card.dark .audience-list li {
+  color: #e0dbd3;
+}
+
+html[data-theme="dark"] .demo-cta {
+  background: #1d1f24;
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .demo-cta p {
+  color: rgba(245, 242, 236, 0.72);
+}
+
+html[data-theme="dark"] .demo-cta .button.light {
+  background: var(--ink);
+  color: #14151a;
+}
+
+html[data-theme="dark"] .demo-cta .button.light:hover {
+  background: #e7e2d9;
+  color: #14151a;
+}
+
+/* The demo call-to-action is a dark panel in both themes, so its ghost link
+   must stay light. Without this, .button.ghost paints ink on ink. */
+.demo-cta .button.ghost {
+  border-color: rgba(253, 252, 252, 0.35);
+  background: transparent;
+  color: #fdfcfc;
+}
+
+.demo-cta .button.ghost:hover {
+  border-color: #fdfcfc;
+  background: rgba(253, 252, 252, 0.1);
+  color: #fdfcfc;
+}
+
+html[data-theme="dark"] .theme-toggle-floating {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Small ember text needs a deeper tone on a light tinted chip. */
+html[data-theme="light"] .demo-badge {
+  color: #b83400;
+}
+
+/* --------------------------------------------------------------------------
+   Theme transition (applied only while switching, so page load never flashes)
+   -------------------------------------------------------------------------- */
+
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 0.24s ease,
+    border-color 0.24s ease,
+    color 0.24s ease,
+    box-shadow 0.24s ease,
+    fill 0.24s ease,
+    stroke 0.24s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition: none !important;
+  }
+}

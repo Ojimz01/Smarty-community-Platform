@@ -379,7 +379,7 @@ async function renderSearchResults(error) {
         ? `Service listings matching "${query}"`
         : "Browse available service listings";
     if (error) {
-        searchResults.innerHTML = `<div class="result-card"><h4>Search is unavailable</h4><p>${escapeHtml(error.message || "Unable to load marketplace results.")}</p><a href="services.html" class="button">Browse all services</a></div>`;
+        searchResults.innerHTML = `<div class="result-card"><h3>Search is unavailable</h3><p>${escapeHtml(error.message || "Unable to load marketplace results.")}</p><a href="services.html" class="button">Browse all services</a></div>`;
         return;
     }
 
@@ -392,13 +392,13 @@ async function renderSearchResults(error) {
         searchResults.innerHTML = services.length ? services.map((service) => `
             <a class="result-card marketplace-result" href="service-detail.html?id=${encodeURIComponent(service._id)}">
                 <span class="provider-tag">${escapeHtml(service.category?.name || "Service")}</span>
-                <h4>${escapeHtml(service.name)}</h4>
+                <h3>${escapeHtml(service.name)}</h3>
                 <p>${escapeHtml(service.description)}</p>
                 <span>${escapeHtml(service.providerProfile?.businessName || service.provider?.username || "Local provider")} · ${escapeHtml(service.providerProfile?.location || "Location not listed")}</span>
             </a>
-        `).join("") : `<div class="result-card"><h4>No matching listings yet</h4><p>Try a different search, category, or location.</p><a href="services.html" class="button">Browse services</a></div>`;
+        `).join("") : `<div class="result-card"><h3>No matching listings yet</h3><p>Try a different search, category, or location.</p><a href="services.html" class="button">Browse services</a></div>`;
     } catch (searchError) {
-        searchResults.innerHTML = `<div class="result-card"><h4>Unable to search right now</h4><p>${escapeHtml(friendlyApiError(searchError, "Unable to search service listings."))}</p><a href="services.html" class="button">Browse all services</a></div>`;
+        searchResults.innerHTML = `<div class="result-card"><h3>Unable to search right now</h3><p>${escapeHtml(friendlyApiError(searchError, "Unable to search service listings."))}</p><a href="services.html" class="button">Browse all services</a></div>`;
     }
 }
 
@@ -514,8 +514,8 @@ async function openProviderProfile(service) {
         availability.textContent = profile.isAvailable ? "Accepting requests" : "Not accepting requests";
         description.textContent = profile.bio || "This provider has not added a profile description yet.";
         contact.textContent = profile.phone ? "Contact: " + profile.phone : "Contact details are shared after a request is accepted.";
-        profileServices.innerHTML = "<h4>Services</h4>" + ((data.services || []).map((item) => "<p>" + escapeHtml(item.name) + " - " + escapeHtml(item.currency) + " " + Number(item.price).toFixed(2) + " / " + escapeHtml(item.priceUnit) + "</p>").join("") || "<p>No active service listings.</p>");
-        profileReviews.innerHTML = "<h4>Customer reviews</h4>" + ((data.reviews || []).map((review) => "<p>Rating: " + review.rating + " / 5 - " + escapeHtml(review.comment || "No written comment.") + " <small>by " + escapeHtml(review.customerName) + "</small></p>").join("") || "<p>No reviews yet.</p>");
+        profileServices.innerHTML = "<h3>Services</h3>" + ((data.services || []).map((item) => "<p>" + escapeHtml(item.name) + " - " + escapeHtml(item.currency) + " " + Number(item.price).toFixed(2) + " / " + escapeHtml(item.priceUnit) + "</p>").join("") || "<p>No active service listings.</p>");
+        profileReviews.innerHTML = "<h3>Customer reviews</h3>" + ((data.reviews || []).map((review) => "<p>Rating: " + review.rating + " / 5 - " + escapeHtml(review.comment || "No written comment.") + " <small>by " + escapeHtml(review.customerName) + "</small></p>").join("") || "<p>No reviews yet.</p>");
         profileRequestButton.disabled = !profile.isAvailable;
         profileRequestButton.dataset.serviceId = service._id;
     } catch (error) {
@@ -552,7 +552,7 @@ async function renderServiceProviders(error) {
         tabs.innerHTML = links.join("");
     }
     if (error) {
-        providerGrid.innerHTML = "<div class='provider-card no-results'><h4>Marketplace unavailable</h4><p>" + escapeHtml(error.message || "Unable to load service listings.") + "</p></div>";
+        providerGrid.innerHTML = "<div class='provider-card no-results'><h3>Marketplace unavailable</h3><p>" + escapeHtml(error.message || "Unable to load service listings.") + "</p></div>";
         if (providerCount) providerCount.textContent = "Listings unavailable";
         return;
     }
@@ -603,9 +603,9 @@ async function renderServiceProviders(error) {
                 </div>
                 <small class="favorite-card-feedback" aria-live="polite"></small>
             </article>`;
-        }).join("") : "<div class='provider-card no-results'><h4>No listings found</h4><p>Try a different category, search, or location. Providers can add listings from their dashboard.</p></div>";
+        }).join("") : "<div class='provider-card no-results'><h3>No listings found</h3><p>Try a different category, search, or location. Providers can add listings from their dashboard.</p></div>";
     } catch (loadError) {
-        providerGrid.innerHTML = "<div class='provider-card no-results'><h4>Unable to load listings</h4><p>" + escapeHtml(loadError.message || "Please try again later.") + "</p></div>";
+        providerGrid.innerHTML = "<div class='provider-card no-results'><h3>Unable to load listings</h3><p>" + escapeHtml(loadError.message || "Please try again later.") + "</p></div>";
         if (providerCount) providerCount.textContent = "Listings unavailable";
     }
 }

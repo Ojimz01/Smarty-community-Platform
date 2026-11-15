@@ -15,6 +15,36 @@
   <meta property="og:description" content="Find local service providers, send a clear request, and track every job from start to finish.">
   <meta property="og:type" content="website">
   <title>Smart Community — Local services, handled with care</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://smarty-community-platform.vercel.app/#organization",
+        "name": "Smart Community",
+        "url": "https://smarty-community-platform.vercel.app/",
+        "logo": "https://smarty-community-platform.vercel.app/assets/logo.jpg",
+        "description": "Smart Community connects people with local service providers for plumbing, cleaning, repairs, and everyday help."
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://smarty-community-platform.vercel.app/#website",
+        "url": "https://smarty-community-platform.vercel.app/",
+        "name": "Smart Community",
+        "publisher": { "@id": "https://smarty-community-platform.vercel.app/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://smarty-community-platform.vercel.app/search.html?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -318,6 +348,7 @@
           <p class="eyebrow">Contact</p>
           <h2 id="contactHeading">Questions before you start?</h2>
           <p>Send a note and we'll get back to you. If your question is about an active job, include the request number from your dashboard.</p>
+          <p><a class="text-link" href="help.html">Read common questions →</a></p>
           <div class="contact-details">
             <div>
               <strong>Email</strong>
@@ -365,7 +396,7 @@
         </div>
 
         <div class="footer-col">
-          <h4>Marketplace</h4>
+          <h3>Marketplace</h3>
           <a href="services.html">Browse services</a>
           <a href="search.html?q=cleaning">Search</a>
           <a href="demo.html">Interactive demo</a>
@@ -373,14 +404,15 @@
         </div>
 
         <div class="footer-col">
-          <h4>Account</h4>
+          <h3>Account</h3>
           <a href="login.html">Sign in</a>
           <a href="register.html">Create account</a>
           <a href="dashboard.html">Dashboard</a>
         </div>
 
         <div class="footer-col">
-          <h4>Support</h4>
+          <h3>Support</h3>
+          <a href="help.html">Help centre</a>
           <a href="#contact">Contact us</a>
           <a href="services.html">Provider listings</a>
           <a href="#providers">For providers</a>

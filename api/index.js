@@ -13,9 +13,12 @@ module.exports = async function handler(req, res) {
 
   const missing = missingConfig();
   if (missing.length) {
+    console.error(
+      "Smart Community account services are not configured. Missing environment variable(s): " + missing.join(", ")
+    );
     res.status(503).json({
       status: "not-configured",
-      message: "Account services are not configured yet. Add MONGODB_URI and JWT_SECRET to this Vercel project."
+      message: "Online accounts and live listings are temporarily unavailable. Please try again shortly, or explore the interactive demo in the meantime."
     });
     return;
   }

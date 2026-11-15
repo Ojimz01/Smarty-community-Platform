@@ -552,7 +552,7 @@ async function renderServiceProviders(error) {
         tabs.innerHTML = links.join("");
     }
     if (error) {
-        providerGrid.innerHTML = "<div class='provider-card no-results'><h3>Marketplace unavailable</h3><p>" + escapeHtml(error.message || "Unable to load service listings.") + "</p></div>";
+        providerGrid.innerHTML = "<div class='provider-card no-results'><h3>Marketplace unavailable</h3><p>" + escapeHtml(friendlyApiError(error, "Unable to load service listings.")) + "</p><a class='button ghost' href='demo.html'>Try the interactive demo</a></div>";
         if (providerCount) providerCount.textContent = "Listings unavailable";
         return;
     }
@@ -605,7 +605,7 @@ async function renderServiceProviders(error) {
             </article>`;
         }).join("") : "<div class='provider-card no-results'><h3>No listings found</h3><p>Try a different category, search, or location. Providers can add listings from their dashboard.</p></div>";
     } catch (loadError) {
-        providerGrid.innerHTML = "<div class='provider-card no-results'><h3>Unable to load listings</h3><p>" + escapeHtml(loadError.message || "Please try again later.") + "</p></div>";
+        providerGrid.innerHTML = "<div class='provider-card no-results'><h3>Unable to load listings</h3><p>" + escapeHtml(friendlyApiError(loadError, "Please try again later.")) + "</p><a class='button ghost' href='demo.html'>Try the interactive demo</a></div>";
         if (providerCount) providerCount.textContent = "Listings unavailable";
     }
 }

@@ -35,7 +35,7 @@ async function showServiceAvailabilityNotice(target) {
     const notice = document.createElement("div");
     notice.className = "service-notice";
     notice.setAttribute("role", "status");
-    notice.innerHTML = "<strong>Account services are offline right now.</strong><span>Browsing works, but sign-in, service requests, and dashboards need the Smart Community API. Please try again shortly.</span>";
+    notice.innerHTML = "<strong>Live marketplace services are temporarily unavailable.</strong><span>Live listings, sign-in, service requests, and dashboards need the Smart Community API. Try the sample-only demo or come back shortly.</span>";
     target.prepend(notice);
 }
 
@@ -336,31 +336,26 @@ if (contactForm) {
 
 // ===== Search Functionality =====
 const searchInput = document.getElementById("searchInput");
-const searchButton = document.getElementById("searchButton");
 const searchForm = document.getElementById("searchForm");
 
 const submitSearch = () => {
     const query = searchInput.value.trim();
-    if (!query) {
-        alert("Please enter a service to search for.");
-        searchInput.focus();
-        return;
-    }
     const encodedQuery = encodeURIComponent(query);
     window.location.href = `search.html?q=${encodedQuery}`;
 };
 
 if (searchForm && searchInput) {
+    const validateSearch = () => {
+        searchInput.setCustomValidity(
+            searchInput.value.trim() ? "" : "Enter a service or provider to search."
+        );
+        return searchInput.reportValidity();
+    };
+
+    searchInput.addEventListener("input", () => searchInput.setCustomValidity(""));
     searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        submitSearch();
-    });
-}
-
-if (searchButton && searchInput) {
-    searchButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        submitSearch();
+        if (validateSearch()) submitSearch();
     });
 }
 
